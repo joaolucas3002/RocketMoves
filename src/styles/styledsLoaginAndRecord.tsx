@@ -28,7 +28,31 @@ export const Subtitle = styled.h2`
    font-weight: 500;
 `;
 
+export const ContainerScrollbar = styled.div`
+   height: 100vh;
+
+   overflow: overlay;
+
+   ::-webkit-scrollbar {
+      width: 0.8rem;
+   }
+
+   ::-webkit-scrollbar-track {
+      background: transparent;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      background: ${color.first};
+      border-radius: ${border.radius};
+   }
+
+   ::-webkit-scrollbar-thumb:hover {
+      background: ${color.firstHover};
+   }
+`;
+
 export const ContainerMain = styled.main`
+   width: 100%;
    display: flex;
    flex-direction: row;
 `;
@@ -38,7 +62,7 @@ export const Section = styled.section`
    width: min(100%, 36rem);
    height: 100%;
    display: flex;
-   padding: 0 2rem 15vh;
+   padding:  3rem 2rem min(15vh, 4rem);
    margin: 0 auto;
    justify-content: center;
    flex-direction: column;
@@ -68,8 +92,6 @@ export const ContainerLink = styled.div`
 `;
 
 export const ContainerImg = styled.div`
-   min-height: 100vh;
-   height: 100%;
    width: 55%;
    background-color: ${color.first5Alpha};
    display: block;
@@ -93,5 +115,3 @@ export const Img = styled.img`
    height: auto;
    width: auto;
 `;
-
-
