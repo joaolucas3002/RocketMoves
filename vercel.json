@@ -1,5 +1,11 @@
 {
-  "rewrites": [
-     { "source": "/(.*)", "destination": "/home" }
-  ]
+   "rewrites": [
+      { "source": "/(.*)", "destination": "/" },
+      { "source": "/CreatePost/(.*)", "destination": "/" },
+      { "source": "/home/(.*)", "destination": "/" },
+      { "source": "/login/(.*)", "destination": "/" },
+      { "source": "/post/(.*)", "destination": "/" },
+      { "source": "/profile/(.*)", "destination": "/" },
+      { "source": "/record/(.*)", "destination": "/" }
+   ]
 }
