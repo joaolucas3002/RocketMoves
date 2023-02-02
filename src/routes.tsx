@@ -9,7 +9,7 @@ import {Profile} from './pages/Profile';
 export function Routes() {
    return (
       <RoutesDom>
-         <Route path="/login" element={<Login />} />
+         <Route path="/" element={<Login />} />
          <Route path="/record" element={<Record />} />
          <Route path="/home" element={<Home />} />
          <Route path="/createPost" element={<CreatePost />} />

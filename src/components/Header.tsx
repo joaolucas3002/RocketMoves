@@ -21,12 +21,13 @@ const ContainerHeader = styled.div`
    gap: 5%;
 `;
 
-const Logo = styled.h2`
+const Logo = styled(Link)`
    color: ${color.first};
    font-family: ${font.family.robotoSlab};
    font-size: ${font.size.lg};
    line-height: ${font.lineHeight};
    font-weight: 700;
+   text-decoration: none;
 
    @media (max-width: 620px) {
       display: none;
@@ -96,6 +97,7 @@ const ContainerImg = styled(Link)`
    display: flex;
    justify-content: center;
    align-items: center;
+   background-color: ${color.thirdBg};
 
    :focus {
       outline: 2px solid ${color.third};
@@ -103,12 +105,12 @@ const ContainerImg = styled(Link)`
    }
 `;
 
-interface Headerprops {
+interface HeaderProps {
    name: string;
    url: string;
 }
 
-export function Header({ name, url }: Headerprops) {
+export function Header({ name, url }: HeaderProps) {
    function validateLinghtString(name: string) {
       if (name.length > 20) {
          const filterName = name.substring(0, 17);
@@ -125,7 +127,7 @@ export function Header({ name, url }: Headerprops) {
       <MarginBottom>
          <MaxWidth>
             <ContainerHeader>
-               <Logo>RocketMovies</Logo>
+               <Logo to={'/home'}>RocketMovies</Logo>
                <Input placeholder="Pesquisar pelo título" />
                <ContainerInfo>
                   <Cont>
@@ -133,7 +135,7 @@ export function Header({ name, url }: Headerprops) {
                      <Leave>sair</Leave>
                   </Cont>
                   <ContainerImg to={url}>
-                     <img src={image1} alt="" />
+                     {/* <img src={image1} alt="" /> */}
                   </ContainerImg>
                </ContainerInfo>
             </ContainerHeader>
