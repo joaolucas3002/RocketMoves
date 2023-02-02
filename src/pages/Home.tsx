@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Post } from '../components/Post';
 
-import { MaxWidthScrollbar, TitleSection } from '../styles/Global';
+import { MaxWidthScrollbar, TitleSection } from '../styles/styledGlobal';
 
 import { theme } from '../theme';
 

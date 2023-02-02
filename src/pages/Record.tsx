@@ -18,7 +18,7 @@ import {
    ContainerLink,
    Img,
 } from '../styles/styledsLoaginAndRecord';
-import { TextLink, Button } from '../styles/Global';
+import { TextLink, Button } from '../styles/styledGlobal';
 import { theme } from '../theme';
 
 const { color, font } = theme;

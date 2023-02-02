@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { TitleSection } from '../styles/Global';
+import { TitleSection } from '../styles/styledGlobal';
 import { Stars } from './Stars';
 
 import { theme } from '../theme';
-
 
 const { font, color, border } = theme;
 

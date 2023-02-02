@@ -6,7 +6,7 @@ import { TbArrowLeft } from 'react-icons/tb';
 import { CreateInput } from '../components/CreateInput';
 import { ButtonHistory } from '../components/ButtonHistory';
 
-import { Button, MaxWidth, MaxWidthScrollbar } from '../styles/Global';
+import { Button, MaxWidth, MaxWidthScrollbar } from '../styles/styledGlobal';
 import { theme } from '../theme';
 
 const { font, color } = theme;

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { theme } from '../theme';
 import image1 from '../assets/image1.png';
-import { MaxWidth } from '../styles/Global';
+import { MaxWidth } from '../styles/styledGlobal';
 import { Link } from 'react-router-dom';
 
 const { font, color } = theme;

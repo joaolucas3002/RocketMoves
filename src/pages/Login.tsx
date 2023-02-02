@@ -17,17 +17,16 @@ import {
    ContainerLink,
    Img,
 } from '../styles/styledsLoaginAndRecord';
-import { TextLink, Button } from '../styles/Global';
+import { TextLink, Button } from '../styles/styledGlobal';
 import { theme } from '../theme';
 import { Link } from 'react-router-dom';
 
 const { color, font } = theme;
 
-
 const LinkT = styled(Link)`
-color: ${color.firstBg};
-text-decoration: none;
-`
+   color: ${color.firstBg};
+   text-decoration: none;
+`;
 
 export function Login() {
    return (
@@ -57,7 +56,9 @@ export function Login() {
                      id="email"
                   />
                </ContainerInput>
-               <Button><LinkT to={"/home"} >Entrar</LinkT></Button>
+               <Button>
+                  <LinkT to={'/home'}>Entrar</LinkT>
+               </Button>
             </Form>
             <ContainerLink>
                <TextLink to="/record">Criar conta</TextLink>
