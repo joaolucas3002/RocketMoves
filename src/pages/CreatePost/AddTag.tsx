@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineAdd } from 'react-icons/md';
+
 import { theme } from '../../theme';
 
 const { color, font, border } = theme;

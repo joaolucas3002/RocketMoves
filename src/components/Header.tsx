@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { theme } from '../theme';
 import image1 from '../assets/image1.png';
-import { MaxWidth } from '../styles/global';
+import { MaxWidth } from '../styles/Global';
 import { Link } from 'react-router-dom';
 
 const { font, color } = theme;
@@ -100,7 +100,6 @@ const ContainerImg = styled(Link)`
    :focus {
       outline: 2px solid ${color.third};
       outline-offset: 3px;
-
    }
 `;
 
@@ -110,7 +109,6 @@ interface Headerprops {
 }
 
 export function Header({ name, url }: Headerprops) {
-
    function validateLinghtString(name: string) {
       if (name.length > 20) {
          const filterName = name.substring(0, 17);

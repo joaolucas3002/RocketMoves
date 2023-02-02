@@ -1,9 +1,10 @@
+import styled from 'styled-components';
 import {
    MdOutlineStar,
    MdOutlineStarOutline,
    MdOutlineStarHalf,
 } from 'react-icons/md';
-import styled from 'styled-components';
+
 import { theme } from '../theme';
 
 const { font, color } = theme;

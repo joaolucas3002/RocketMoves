@@ -1,6 +1,10 @@
 import styled from 'styled-components';
-import { CreateInput } from '../components/CreateInput';
 import { RxPerson, RxEnvelopeClosed } from 'react-icons/rx';
+
+import { CreateInput } from '../components/CreateInput';
+
+import RocketMovesInhSVG from '../assets/RocketMovesInhSVG.svg';
+
 import {
    Description,
    Logo2xl,
@@ -13,8 +17,7 @@ import {
    ContainerLink,
    Img,
 } from '../styles/styledsLoaginAndRecord';
-import { TextLink, Button } from '../styles/global';
-import RocketMovesInhSVG from '../assets/RocketMovesInhSVG.svg';
+import { TextLink, Button } from '../styles/Global';
 import { theme } from '../theme';
 
 const { color, font } = theme;

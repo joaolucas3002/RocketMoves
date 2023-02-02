@@ -1,7 +1,8 @@
 import { ButtonHTMLAttributes } from 'react';
-import { IconType } from 'react-icons/lib';
 import { useNavigate } from 'react-router-dom';
+import { IconType } from 'react-icons/lib';
 import styled from 'styled-components';
+
 import { theme } from '../theme';
 
 const { font, color } = theme;

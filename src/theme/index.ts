@@ -47,8 +47,6 @@ export interface LineHeight {
    "2xl": string;
 }
 
-
-
 export const theme:Theme = {
    color: {
       first: "#FF859B",
@@ -81,7 +79,6 @@ export const theme:Theme = {
          roboto: '"Roboto", sans-serif',
          robotoSlab: '"Roboto Slab", serif',
       },
-      
    },
    border: {
       radius: "1rem"
@@ -89,6 +86,5 @@ export const theme:Theme = {
    header:{
       height: "10.5rem"
    }
-   
 }
 

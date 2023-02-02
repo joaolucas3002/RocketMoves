@@ -9,8 +9,8 @@ import { ButtonHistory } from '../../components/ButtonHistory';
 import { CreateStar } from './CreateStar';
 import { AddTag } from './AddTag';
 
-import { Button, MaxWidthScrollbar, Title } from '../../styles/global';
-import { ButtonProportions } from '../../styles/global';
+import { Button, MaxWidthScrollbar, Title } from '../../styles/Global';
+import { ButtonProportions } from '../../styles/Global';
 import { theme } from '../../theme';
 
 const { color, font, border } = theme;

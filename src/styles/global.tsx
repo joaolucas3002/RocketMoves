@@ -6,6 +6,7 @@ const { color, font, border, header } = theme;
 
 export const MaxWidth = styled.div`
    margin: 0 auto;
+   height: 100%;
    width: min(100%, 141rem);
    padding-inline: min(7vw, 8rem);
 `;

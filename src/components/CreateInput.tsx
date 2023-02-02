@@ -1,10 +1,11 @@
+import { InputHTMLAttributes } from 'react';
 import styled, {
    StyledComponent,
    StyledComponentProps,
 } from 'styled-components';
 import { IconType } from 'react-icons/lib';
+
 import { theme } from '../theme';
-import { InputHTMLAttributes } from 'react';
 
 const { color, font } = theme;
 

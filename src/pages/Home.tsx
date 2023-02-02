@@ -1,13 +1,16 @@
 import styled from 'styled-components';
-import { Header } from '../components/Header';
-
-import { MaxWidthScrollbar, TitleSection } from '../styles/global';
 import { IoAddOutline } from 'react-icons/io5';
-
-import { Post } from '../components/Post';
-import { posts } from '../informacoes';
-import { theme } from '../theme';
 import { Link } from 'react-router-dom';
+
+import { Header } from '../components/Header';
+import { Post } from '../components/Post';
+
+import { MaxWidthScrollbar, TitleSection } from '../styles/Global';
+
+import { theme } from '../theme';
+
+//
+import { posts } from '../informacoes';
 
 const { font, color } = theme;
 

@@ -1,6 +1,6 @@
-import { MdOutlineClose } from 'react-icons/md';
 import styled from 'styled-components';
-import { ButtonProportions } from '../styles/global';
+import { MdOutlineClose } from 'react-icons/md';
+
 import { theme } from '../theme';
 
 const { color, font, border } = theme;
@@ -24,24 +24,21 @@ const Tag = styled.div`
    text-transform: capitalize;
 
    gap: 1.6rem;
-
 `;
 
-const Propor = 24
+const Propor = 24;
 
 const Button = styled.button`
-
-   width: ${Propor /10}rem;
-   height: ${Propor /10}rem;
-   font-size: ${Propor /10}rem;
+   width: ${Propor / 10}rem;
+   height: ${Propor / 10}rem;
+   font-size: ${Propor / 10}rem;
    color: ${color.first};
    background-color: transparent;
 
- 
- :focus{
-   color: ${color.firstHover};
- }
-`
+   :focus {
+      color: ${color.firstHover};
+   }
+`;
 
 interface TagProps {
    title: string;
@@ -60,8 +57,8 @@ export function CreateTag({ title, array, setArray }: TagProps) {
       <Tag>
          {title}
          <Button>
-            <MdOutlineClose onClick={remuveEtementeArray}
-               
+            <MdOutlineClose
+               onClick={remuveEtementeArray}
                style={{ cursor: 'pointer' }}
             />
          </Button>

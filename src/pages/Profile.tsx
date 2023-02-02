@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { RxEnvelopeClosed, RxLockClosed, RxPerson } from 'react-icons/rx';
-import { Button, MaxWidth, TextLink } from '../styles/global';
 import { TbArrowLeft } from 'react-icons/tb';
+
 import { CreateInput } from '../components/CreateInput';
 import { ButtonHistory } from '../components/ButtonHistory';
+
+import { Button, MaxWidth, MaxWidthScrollbar } from '../styles/Global';
 import { theme } from '../theme';
 
 const { font, color } = theme;
@@ -67,7 +69,7 @@ export function Profile() {
                </ContainerInfo>
             </MaxWidth>
          </ContainerHeader>
-         <MaxWidth>
+         <MaxWidthScrollbar>
             <ContainerForm>
                <Section>
                   <CreateInput
@@ -107,7 +109,7 @@ export function Profile() {
 
                <Button>Salvar</Button>
             </ContainerForm>
-         </MaxWidth>
+         </MaxWidthScrollbar>
       </>
    );
 }

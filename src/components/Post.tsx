@@ -1,8 +1,11 @@
-import { theme } from '../theme';
 import styled from 'styled-components';
-import { TitleSection } from '../styles/global';
-import { Stars } from './Stars';
 import { Link } from 'react-router-dom';
+
+import { TitleSection } from '../styles/Global';
+import { Stars } from './Stars';
+
+import { theme } from '../theme';
+
 
 const { font, color, border } = theme;
 
@@ -15,7 +18,7 @@ const ContainerPost = styled(Link)`
    gap: 1.3rem;
    text-decoration: none;
 
-   :focus{
+   :focus {
       outline: 2px solid ${color.first};
       outline-offset: 3px;
    }
@@ -54,11 +57,11 @@ const Tag = styled(Link)`
    text-decoration: none;
    background-color: ${color.fourthBg};
 
-   :hover{
+   :hover {
       text-decoration: underline;
    }
 
-   :focus{
+   :focus {
       outline: 2px solid ${color.fourth};
       outline-offset: 3px;
    }
