@@ -11,3 +11,12 @@ export default defineConfig({
       },
    },
 })
+
+
+// ,
+//       { "source": "/CreatePost/(.*)", "destination": "/" },
+//       { "source": "/home/(.*)", "destination": "/" },
+//       { "source": "/login/(.*)", "destination": "/" },
+//       { "source": "/post/(.*)", "destination": "/" },
+//       { "source": "/profile/(.*)", "destination": "/" },
+//       { "source": "/record/(.*)", "destination": "/" }

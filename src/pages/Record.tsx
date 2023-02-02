@@ -65,7 +65,7 @@ export function Record() {
                <Button>Cadastrar</Button>
             </Form>
             <ContainerLink>
-               <TextLink to="/login">
+               <TextLink to="/">
                   <TbArrowLeft /> Voltar para o login
                </TextLink>
             </ContainerLink>
