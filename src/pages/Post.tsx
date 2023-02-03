@@ -1,25 +1,62 @@
 import { TbArrowLeft } from 'react-icons/tb';
-import { Link } from 'react-router-dom';
+import { FiClock } from 'react-icons/fi';
+
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ButtonHistory } from '../components/ButtonHistory';
 import { Header } from '../components/Header';
+import { Stars } from '../components/Stars';
+import { posts } from '../informacoes';
 
 import {
    MaxWidthScrollbar,
-   Title,
+   TitleSection,
    ContainerHidden,
 } from '../styles/styledGlobal';
 import { theme } from '../theme';
+import { validateLinghtString } from '../utils/ValidateLinghtString';
 
 const { color, font, border, header } = theme;
 
-const ContainerInfo = styled.div``;
-
-const ContainerTag = styled.div`
+const ContainerMain = styled.div`
+   padding-block: 3rem 6rem;
    display: flex;
-   flex-direction: row;
-   gap: 0.8rem;
+   flex-direction: column;
+   gap: 3rem;
+`;
+
+const ContainerInfo = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 2.4rem;
+`;
+
+const ContainerWrap = styled.section`
+   display: flex;
+   align-items: center;
+   flex-wrap: wrap;
+   gap: 1.6rem;
+`;
+
+const Name = styled.span`
+   color: ${color.third};
+   font-family: ${font.family.roboto};
+   font-size: ${font.size.base};
+   font-weight: 400;
+   line-height: ${font.lineHeight};
+`;
+//FiClock
+const Date = styled.span`
+   color: ${color.third};
+   font-family: ${font.family.roboto};
+   font-size: ${font.size.base};
+   font-weight: 400;
+   line-height: ${font.lineHeight};
+
+   display: flex;
+   align-items: center;
+   gap: 0.6rem;
 `;
 
 const Text = styled.p`
@@ -28,6 +65,13 @@ const Text = styled.p`
    font-weight: 400;
    line-height: ${font.lineHeight};
    font-family: ${font.family.robotoSlab};
+`;
+
+const ContainerTag = styled.div`
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   gap: 0.8rem;
 `;
 
 const Tag = styled(Link)`
@@ -54,43 +98,47 @@ const Tag = styled(Link)`
 `;
 
 export function Post() {
-   const name = 'Rodrigo Gonçalves silva';
+   const params = useParams();
 
-   const Array: string[] = ['Ficção Científica', 'Drama', 'Família'];
+   const name = 'Rodrigo Gonsalves da silva ';
+
+   const nameLinght = validateLinghtString(name);
+
+   const Id = params.id ? parseInt(params.id) : 0;
+
+   const { title, tags, post, stars } = posts[Id];
 
    return (
       <ContainerHidden>
-         <Header name={name} url="/profile" />
+         <Header name={nameLinght} url="/profile" />
 
          <MaxWidthScrollbar>
-            <ContainerInfo>
-               <ButtonHistory>
-                  <TbArrowLeft /> Voltar
-               </ButtonHistory>
-               <Title>Interestellar</Title>
-            </ContainerInfo>
-
-            <ContainerTag>
-               {Array.map((tag, index) => (
-                  <Tag key={`${tag}-${index}`} to={'#'}>
-                     {tag}
-                  </Tag>
-               ))}
-            </ContainerTag>
-
-            <Text>
-               Lorem ipsum dolor sit amet consectetur adipisicing elit.
-               Laboriosam eligendi nisi architecto atque quo saepe vel commodi
-               autem odit eaque omnis quibusdam dicta totam eum, tempore animi!
-               Sunt, praesentium porro. Lorem ipsum dolor sit amet consectetur
-               adipisicing elit. Distinctio aperiam vel consequuntur impedit sed
-               eius quae, soluta debitis repellat quod, architecto error earum
-               enim dicta ipsa dolores laboriosam tempora quam. Lorem ipsum
-               dolor sit amet consectetur adipisicing elit. Numquam voluptates
-               vero quidem tempora aut nisi ullam fugiat nemo quae a quisquam
-               praesentium fuga deleniti, dolorem incidunt laborum aliquid
-               provident soluta?
-            </Text>
+            <ContainerMain>
+               <ContainerInfo>
+                  <ButtonHistory>
+                     <TbArrowLeft /> Voltar
+                  </ButtonHistory>
+                  <ContainerWrap>
+                     <TitleSection>{title}</TitleSection>
+                     <Stars amountOfStar={stars} />
+                  </ContainerWrap>
+                  <ContainerWrap>
+                     <Name>Por {nameLinght}</Name>
+                     <Date>
+                        <FiClock color={color.first} />
+                        23/02/22 às 08:00
+                     </Date>
+                  </ContainerWrap>
+               </ContainerInfo>
+               <ContainerTag>
+                  {tags.map((tag, index) => (
+                     <Tag key={`${tag}-${index}`} to={'#'}>
+                        {tag}
+                     </Tag>
+                  ))}
+               </ContainerTag>
+               <Text>{post}</Text>
+            </ContainerMain>
          </MaxWidthScrollbar>
       </ContainerHidden>
    );

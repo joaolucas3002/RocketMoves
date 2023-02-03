@@ -46,7 +46,7 @@ export const MaxWidthScrollbar = styled.div`
 
 export const TitleSection = styled.h2`
    color: ${color.third};
-   font-size: clamp(${font.size.xl});
+   font-size: ${font.size.xl};
    line-height: ${font.lineHeight};
    font-family: ${font.family.robotoSlab};
    font-weight: 400;
@@ -54,7 +54,7 @@ export const TitleSection = styled.h2`
 
 export const Title = styled.h2`
    color: ${color.third};
-   font-size: clamp(${font.size.lg});
+   font-size: ${font.size.lg};
    line-height: ${font.lineHeight};
    font-family: ${font.family.robotoSlab};
    font-weight: 700;
@@ -119,4 +119,3 @@ export const ButtonSmall = styled.button`
    align-items: center;
    gap: 0.8rem;
 `;
-

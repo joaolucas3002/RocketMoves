@@ -13,7 +13,7 @@ export function Routes() {
          <Route path="/record" element={<Record />} />
          <Route path="/home" element={<Home />} />
          <Route path="/createPost" element={<CreatePost />} />
-         <Route path="/post" element={<Post />} />
+         <Route path="/post/:id" element={<Post />} />
          <Route path="/profile" element={<Profile />} />
       </RoutesDom>
    );

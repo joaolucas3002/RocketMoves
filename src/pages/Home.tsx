@@ -27,10 +27,10 @@ export const ButtonSmall = styled(Link)`
    padding-inline: 2.4rem;
    text-decoration: none;
 
-   color: ${color.secondBg};
+   color: ${color.firstBg};
    font-size: ${font.size.base};
-   font-weight: 400;
-   font-family: ${font.family.robotoSlab};
+   font-weight: 500;
+   font-family: ${font.family.roboto};
 
    display: flex;
    justify-content: center;
@@ -99,7 +99,7 @@ export function Home() {
                      <ButtonSmall to="/createPost">
                         <IoAddOutline size={24} />
 
-                        <TextButton>Adicionar filme</TextButton>
+                        <TextButton>Adicionar Filme</TextButton>
                      </ButtonSmall>
                   </ContainerButton>
                </Section>

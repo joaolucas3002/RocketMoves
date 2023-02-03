@@ -9,7 +9,10 @@ import { theme } from '../theme';
 
 const { font, color } = theme;
 
+const sizeStars = 18
+
 const ContainerStars = styled.section`
+   height: ${sizeStars / 10}rem;
    display: inline-block;
    color: ${color.first};
 `;
@@ -24,9 +27,9 @@ export function Stars({ amountOfStar }: StarsProps) {
 
       return arr.map((e, index) =>
          index < stars ? (
-            <MdOutlineStar size={16} />
+            <MdOutlineStar size={sizeStars} />
          ) : (
-            <MdOutlineStarOutline size={16} />
+            <MdOutlineStarOutline size={sizeStars} />
          ),
       );
    }

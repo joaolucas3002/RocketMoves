@@ -3,6 +3,7 @@ import { theme } from '../theme';
 import image1 from '../assets/image1.png';
 import { MaxWidth } from '../styles/styledGlobal';
 import { Link } from 'react-router-dom';
+import { validateLinghtString } from '../utils/ValidateLinghtString';
 
 const { font, color } = theme;
 
@@ -111,15 +112,7 @@ interface HeaderProps {
 }
 
 export function Header({ name, url }: HeaderProps) {
-   function validateLinghtString(name: string) {
-      if (name.length > 20) {
-         const filterName = name.substring(0, 17);
 
-         return `${filterName}...`;
-      } else {
-         return name;
-      }
-   }
 
    const Names = validateLinghtString(name);
 
