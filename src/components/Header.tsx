@@ -3,7 +3,7 @@ import { theme } from '../theme';
 import image1 from '../assets/image1.png';
 import { MaxWidth } from '../styles/styledGlobal';
 import { Link } from 'react-router-dom';
-import { validateLinghtString } from '../utils/ValidateLinghtString';
+import { validateLinghtString } from '../utils/validateLinghtString';
 
 const { font, color } = theme;
 

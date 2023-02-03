@@ -15,7 +15,7 @@ import {
    ContainerHidden,
 } from '../styles/styledGlobal';
 import { theme } from '../theme';
-import { validateLinghtString } from '../utils/ValidateLinghtString';
+import { validateLinghtString } from '../utils/validateLinghtString';
 
 const { color, font, border, header } = theme;
 
