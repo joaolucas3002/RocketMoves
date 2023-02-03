@@ -6,7 +6,12 @@ import { TbArrowLeft } from 'react-icons/tb';
 import { CreateInput } from '../components/CreateInput';
 import { ButtonHistory } from '../components/ButtonHistory';
 
-import { Button, MaxWidth, MaxWidthScrollbar } from '../styles/styledGlobal';
+import {
+   Button,
+   MaxWidth,
+   MaxWidthScrollbar,
+   ContainerHidden,
+} from '../styles/styledGlobal';
 import { theme } from '../theme';
 
 const { font, color } = theme;
@@ -58,7 +63,7 @@ const Section = styled.section`
 
 export function Profile() {
    return (
-      <>
+      <ContainerHidden>
          <ContainerHeader>
             <MaxWidth>
                <ContainerInfo>
@@ -111,6 +116,6 @@ export function Profile() {
                <Button>Salvar</Button>
             </ContainerForm>
          </MaxWidthScrollbar>
-      </>
+      </ContainerHidden>
    );
 }

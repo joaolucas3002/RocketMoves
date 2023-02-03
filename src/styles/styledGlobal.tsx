@@ -1,8 +1,15 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../theme';
 
 const { color, font, border, header } = theme;
+
+export const ContainerHidden = styled.div`
+   height: 100vh;
+   width: 100vw;
+   overflow: hidden;
+`;
 
 export const MaxWidth = styled.div`
    margin: 0 auto;
@@ -112,3 +119,4 @@ export const ButtonSmall = styled.button`
    align-items: center;
    gap: 0.8rem;
 `;
+

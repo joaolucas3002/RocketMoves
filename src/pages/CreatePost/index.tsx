@@ -9,7 +9,7 @@ import { ButtonHistory } from '../../components/ButtonHistory';
 import { CreateStar } from './CreateStar';
 import { AddTag } from './AddTag';
 
-import { Button, MaxWidthScrollbar, Title } from '../../styles/styledGlobal';
+import { Button, MaxWidthScrollbar, Title, ContainerHidden } from '../../styles/styledGlobal';
 import { ButtonProportions } from '../../styles/styledGlobal';
 import { theme } from '../../theme';
 
@@ -147,7 +147,7 @@ export function CreatePost() {
    const name = 'Rodrigo Gonçalves silva';
 
    return (
-      <>
+      <ContainerHidden>
          <Header name={name} url="/profile" />
 
          <MaxWidthScrollbar>
@@ -199,6 +199,6 @@ export function CreatePost() {
                </ContainerRow>
             </ContainerMain>
          </MaxWidthScrollbar>
-      </>
+      </ContainerHidden>
    );
 }

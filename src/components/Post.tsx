@@ -49,9 +49,11 @@ const Tag = styled(Link)`
    font-family: ${font.family.roboto};
    font-size: ${font.size.xs};
    line-height: ${font.lineHeight};
+
    font-weight: 400;
    border-radius: ${border.radius};
    padding: 0.5rem 1.6rem;
+
    text-transform: capitalize;
    text-decoration: none;
    background-color: ${color.fourthBg};

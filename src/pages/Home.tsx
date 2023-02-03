@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Post } from '../components/Post';
 
-import { MaxWidthScrollbar, TitleSection } from '../styles/styledGlobal';
+import { MaxWidthScrollbar, TitleSection,ContainerHidden } from '../styles/styledGlobal';
 
 import { theme } from '../theme';
 
@@ -82,11 +82,12 @@ const Main = styled.main`
    padding-bottom: 4.5rem;
 `;
 
+
 const name = 'Rodrigo Gonçalves silva';
 
 export function Home() {
    return (
-      <>
+      <ContainerHidden>
          <Header name={name} url="/profile" />
 
          <MaxWidthScrollbar>
@@ -116,6 +117,6 @@ export function Home() {
                </ContainerPosts>
             </Main>
          </MaxWidthScrollbar>
-      </>
+      </ContainerHidden>
    );
 }
