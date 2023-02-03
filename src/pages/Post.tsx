@@ -11,7 +11,7 @@ import { posts } from '../informacoes';
 
 import {
    MaxWidthScrollbar,
-   TitleSection,
+   Title,
    ContainerHidden,
 } from '../styles/styledGlobal';
 import { theme } from '../theme';
@@ -119,7 +119,7 @@ export function Post() {
                      <TbArrowLeft /> Voltar
                   </ButtonHistory>
                   <ContainerWrap>
-                     <TitleSection>{title}</TitleSection>
+                     <Title>{title}</Title>
                      <Stars amountOfStar={stars} />
                   </ContainerWrap>
                   <ContainerWrap>

@@ -22,7 +22,7 @@ export const Logo2xl = styled.h2`
 
 export const Subtitle = styled.h2`
    color: ${color.third};
-   font-size: clamp(${font.size.lg});
+   font-size: ${font.size.lg};
    line-height: ${font.lineHeight};
    font-family: ${font.family.robotoSlab};
    font-weight: 500;

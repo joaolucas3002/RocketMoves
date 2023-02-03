@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import { TitleSection } from '../styles/styledGlobal';
+import { Subtitle } from '../styles/styledGlobal';
 import { Stars } from './Stars';
 
 import { theme } from '../theme';
@@ -88,7 +88,7 @@ export function Post({ title, post, stars, id, tags }: PostProps) {
    return (
       <ContainerPost to={`/post/${id}`}>
          <ContainerInfo>
-            <TitleSection>{title}</TitleSection>
+            <Subtitle>{title}</Subtitle>
             <Stars amountOfStar={stars} />
          </ContainerInfo>
          <PP>{ValuePost}</PP>

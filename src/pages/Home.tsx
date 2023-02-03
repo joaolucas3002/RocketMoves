@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Post } from '../components/Post';
 
-import { MaxWidthScrollbar, TitleSection,ContainerHidden } from '../styles/styledGlobal';
+import { MaxWidthScrollbar, Title,ContainerHidden } from '../styles/styledGlobal';
 
 import { theme } from '../theme';
 
@@ -93,7 +93,7 @@ export function Home() {
          <MaxWidthScrollbar>
             <Main>
                <Section>
-                  <TitleSection>Meus filmes</TitleSection>
+                  <Title>Meus filmes</Title>
 
                   <ContainerButton>
                      <ButtonSmall to="/createPost">
