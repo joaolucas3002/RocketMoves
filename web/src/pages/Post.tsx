@@ -17,7 +17,7 @@ import {
 import { theme } from '../theme';
 import { validateLinghtString } from '../utils/validateLinghtString';
 
-const { color, font, border, header } = theme;
+const { color, font, border } = theme;
 
 const ContainerMain = styled.div`
    padding-block: 3rem 6rem;
