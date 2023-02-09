@@ -13,6 +13,7 @@ import {
    MaxWidthScrollbar,
    Title,
    ContainerHidden,
+   MaxWidth,
 } from '../styles/styledGlobal';
 import { theme } from '../theme';
 import { validateLinghtString } from '../utils/validateLinghtString';
@@ -113,32 +114,34 @@ export function Post() {
          <Header name={nameLinght} url="/profile" />
 
          <MaxWidthScrollbar>
-            <ContainerMain>
-               <ContainerInfo>
-                  <ButtonHistory>
-                     <TbArrowLeft /> Voltar
-                  </ButtonHistory>
-                  <ContainerWrap>
-                     <Title>{title}</Title>
-                     <Stars amountOfStar={stars} />
-                  </ContainerWrap>
-                  <ContainerWrap>
-                     <Name>Por {nameLinght}</Name>
-                     <Date>
-                        <FiClock color={color.first} />
-                        23/02/22 às 08:00
-                     </Date>
-                  </ContainerWrap>
-               </ContainerInfo>
-               <ContainerTag>
-                  {tags.map((tag, index) => (
-                     <Tag key={`${tag}-${index}`} to={'#'}>
-                        {tag}
-                     </Tag>
-                  ))}
-               </ContainerTag>
-               <Text>{post}</Text>
-            </ContainerMain>
+            <MaxWidth>
+               <ContainerMain>
+                  <ContainerInfo>
+                     <ButtonHistory>
+                        <TbArrowLeft /> Voltar
+                     </ButtonHistory>
+                     <ContainerWrap>
+                        <Title>{title}</Title>
+                        <Stars amountOfStar={stars} />
+                     </ContainerWrap>
+                     <ContainerWrap>
+                        <Name>Por {nameLinght}</Name>
+                        <Date>
+                           <FiClock color={color.first} />
+                           23/02/22 às 08:00
+                        </Date>
+                     </ContainerWrap>
+                  </ContainerInfo>
+                  <ContainerTag>
+                     {tags.map((tag, index) => (
+                        <Tag key={`${tag}-${index}`} to={'#'}>
+                           {tag}
+                        </Tag>
+                     ))}
+                  </ContainerTag>
+                  <Text>{post}</Text>
+               </ContainerMain>
+            </MaxWidth>
          </MaxWidthScrollbar>
       </ContainerHidden>
    );
