@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../theme';
 
-const { color, font, border, header } = theme;
+const { color, font, border } = theme;
 
 export const ContainerHidden = styled.div`
    height: 100vh;
    width: 100vw;
-   overflow: hidden;
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-template-rows: min-content auto;
 `;
 
 export const MaxWidth = styled.div`
@@ -19,10 +21,7 @@ export const MaxWidth = styled.div`
 `;
 
 export const MaxWidthScrollbar = styled.div`
-   height: calc(100vh - ${header.height});
-   margin: 0 auto;
-   width: min(100%, 141rem);
-   padding-inline: min(7vw, 8rem);
+   width: 100%;
 
    overflow: overlay;
 
@@ -43,8 +42,6 @@ export const MaxWidthScrollbar = styled.div`
       background: ${color.firstHover};
    }
 `;
-
-
 
 export const Title = styled.h2`
    color: ${color.third};
@@ -86,6 +83,7 @@ export const ButtonProportions = styled.button`
    display: flex;
    justify-content: center;
    line-height: ${font.lineHeight};
+   cursor: pointer;
 
    align-items: center;
 `;
@@ -120,4 +118,11 @@ export const ButtonSmall = styled.button`
    justify-content: center;
    align-items: center;
    gap: 0.8rem;
+`;
+
+export const ImgCover = styled.img`
+   display: block;
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
 `;

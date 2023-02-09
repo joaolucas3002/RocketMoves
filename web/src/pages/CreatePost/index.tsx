@@ -9,7 +9,13 @@ import { ButtonHistory } from '../../components/ButtonHistory';
 import { CreateStar } from './CreateStar';
 import { AddTag } from './AddTag';
 
-import { Button, MaxWidthScrollbar, Title, ContainerHidden } from '../../styles/styledGlobal';
+import {
+   Button,
+   MaxWidthScrollbar,
+   Title,
+   ContainerHidden,
+   MaxWidth,
+} from '../../styles/styledGlobal';
 import { ButtonProportions } from '../../styles/styledGlobal';
 import { theme } from '../../theme';
 
@@ -146,58 +152,59 @@ export function CreatePost() {
 
    const name = 'Rodrigo Gonçalves silva';
 
+   async function names(params: any) {
+
+      const get = await fetch("/newpost")
+      const y = await get.json()
+      
+
+   }
+
    return (
       <ContainerHidden>
          <Header name={name} url="/profile" />
 
          <MaxWidthScrollbar>
-            <ContainerMain>
-               <ContainerColumn>
-                  <ButtonHistory>
-                     <TbArrowLeft /> Voltar
-                  </ButtonHistory>
-
-                  <Title>Comentario</Title>
-               </ContainerColumn>
-
-               <ContainerRow>
-                  <Input type="text" placeholder="Título" />
-
-                  <ContainerStars>
-                     <CreateStar indexStar={stars} setStars={setStars} />
-                  </ContainerStars>
-               </ContainerRow>
-
-               <div>
-                  <Textarea name="" id="" />
-               </div>
-
-               <ContainerColumn>
-                  <TitleH2>Marcadores</TitleH2>
-
-                  <ConstinerTags>
-                     {arrayTags.map((title, index, array) => (
-                        <CreateTag
-                           key={`${title}-${index}`}
-                           title={title}
-                           array={array}
-                           setArray={setArrayTags}
+            <MaxWidth>
+               <ContainerMain>
+                  <ContainerColumn>
+                     <ButtonHistory>
+                        <TbArrowLeft /> Voltar
+                     </ButtonHistory>
+                     <Title>Comentario</Title>
+                  </ContainerColumn>
+                  <ContainerRow>
+                     <Input type="text" placeholder="Título" />
+                     <ContainerStars>
+                        <CreateStar indexStar={stars} setStars={setStars} />
+                     </ContainerStars>
+                  </ContainerRow>
+                  <div>
+                     <Textarea name="" id="" />
+                  </div>
+                  <ContainerColumn>
+                     <TitleH2>Marcadores</TitleH2>
+                     <ConstinerTags>
+                        {arrayTags.map((title, index, array) => (
+                           <CreateTag
+                              key={`${title}-${index}`}
+                              title={title}
+                              array={array}
+                              setArray={setArrayTags}
+                           />
+                        ))}
+                        <AddTag
+                           arrayTags={arrayTags}
+                           setArrayTags={setArrayTags}
                         />
-                     ))}
-
-                     <AddTag
-                        arrayTags={arrayTags}
-                        setArrayTags={setArrayTags}
-                     />
-                  </ConstinerTags>
-               </ContainerColumn>
-
-               <ContainerRow>
-                  <ButtonClose>Excluir</ButtonClose>
-
-                  <Button>Salvar</Button>
-               </ContainerRow>
-            </ContainerMain>
+                     </ConstinerTags>
+                  </ContainerColumn>
+                  <ContainerRow>
+                     <ButtonClose>Excluir</ButtonClose>
+                     <Button>Salvar</Button>
+                  </ContainerRow>
+               </ContainerMain>
+            </MaxWidth>
          </MaxWidthScrollbar>
       </ContainerHidden>
    );

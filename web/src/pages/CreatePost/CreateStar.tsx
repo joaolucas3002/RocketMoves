@@ -5,15 +5,17 @@ import { theme } from '../../theme';
 
 const { color, font, border } = theme;
 
+const sizeStars = 32;
+
 const ButtonStars = styled.button`
+   height: ${sizeStars / 10}rem;
+   width: ${sizeStars / 10}rem;
    background-color: transparent;
+   cursor: pointer;
 
    color: ${color.first};
 
-   :focus {
-      color: ${color.firstHover};
-   }
-
+   :focus,
    :hover {
       color: ${color.firstHover};
    }
@@ -34,12 +36,12 @@ export function CreateStar({ indexStar, setStars }: StarProps) {
       <>
          {arr.map((_, index) => {
             return index < indexStar ? (
-               <ButtonStars onClick={() => validatStar(index)}>
-                  <MdOutlineStar size={32} />
+               <ButtonStars key={index} onClick={() => validatStar(index)}>
+                  <MdOutlineStar size={sizeStars} />
                </ButtonStars>
             ) : (
-               <ButtonStars onClick={() => validatStar(index)}>
-                  <MdOutlineStarOutline size={32} />
+               <ButtonStars key={index} onClick={() => validatStar(index)}>
+                  <MdOutlineStarOutline size={sizeStars} />
                </ButtonStars>
             );
          })}

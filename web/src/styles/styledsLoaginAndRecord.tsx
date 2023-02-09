@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../theme';
 
@@ -62,7 +63,7 @@ export const Section = styled.section`
    width: min(100%, 36rem);
    height: 100%;
    display: flex;
-   padding:  3rem 2rem min(15vh, 4rem);
+   padding: 3rem 2rem min(15vh, 4rem);
    margin: 0 auto;
    justify-content: center;
    flex-direction: column;
@@ -85,6 +86,9 @@ export const ContainerInput = styled.div`
 `;
 
 export const ContainerLink = styled.div`
+
+border-radius: ${border.radius};
+   align-items: center;
    width: 100%;
    display: flex;
    justify-content: center;
@@ -102,6 +106,37 @@ export const ContainerImg = styled.div`
    @media (max-width: 720px) {
       display: none;
       height: auto;
+   }
+`;
+
+export const LinkButton = styled(Link)`
+   height: 5.6rem;
+   width: 100%;
+
+   border-radius: ${border.radius};
+   background-color: ${color.first};
+   cursor: pointer;
+
+
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   color: ${color.secondBg};
+   font-size: ${font.size.base};
+   font-weight: 500;
+   font-family: ${font.family.robotoSlab};
+   line-height: ${font.lineHeight};
+   text-decoration: none;
+
+
+   :focus {
+      outline: 2px solid ${color.fourth};
+      outline-offset: 3px;
+   }
+
+   :hover{
+      text-decoration: underline;
    }
 `;
 

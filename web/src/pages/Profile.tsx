@@ -5,12 +5,14 @@ import { TbArrowLeft } from 'react-icons/tb';
 
 import { CreateInput } from '../components/CreateInput';
 import { ButtonHistory } from '../components/ButtonHistory';
+import RocketMovesInhSVG from '../assets/RocketMovesInhSVG.svg';
 
 import {
    Button,
    MaxWidth,
    MaxWidthScrollbar,
    ContainerHidden,
+   ImgCover,
 } from '../styles/styledGlobal';
 import { theme } from '../theme';
 
@@ -42,6 +44,9 @@ const ContainerImg = styled.div`
    transform: translate(-50%, -50%);
    overflow: hidden;
    border: 4px solid ${color.second};
+   display: flex;
+   justify-content: center;
+   align-items: center;
 `;
 
 const ContainerForm = styled.main`
@@ -71,50 +76,50 @@ export function Profile() {
                      <TbArrowLeft /> Voltar
                   </ButtonHistory>
 
-                  <ContainerImg></ContainerImg>
+                  <ContainerImg>
+                     <ImgCover src={RocketMovesInhSVG} alt="" />
+                  </ContainerImg>
                </ContainerInfo>
             </MaxWidth>
          </ContainerHeader>
          <MaxWidthScrollbar>
-            <ContainerForm>
-               <Section>
-                  <CreateInput
-                     Svg={RxPerson}
-                     type="text"
-                     placeholder="Name"
-                     name="name"
-                     id="name"
-                  />
-
-                  <CreateInput
-                     Svg={RxEnvelopeClosed}
-                     type="email"
-                     placeholder="E-mail"
-                     name="email"
-                     id="email"
-                  />
-               </Section>
-
-               <Section>
-                  <CreateInput
-                     Svg={RxLockClosed}
-                     type="password"
-                     placeholder="Senha"
-                     name="password"
-                     id="password"
-                  />
-
-                  <CreateInput
-                     Svg={RxLockClosed}
-                     type="password"
-                     placeholder="Senha"
-                     name="password"
-                     id="password"
-                  />
-               </Section>
-
-               <Button>Salvar</Button>
-            </ContainerForm>
+            <MaxWidth>
+               <ContainerForm>
+                  <Section>
+                     <CreateInput
+                        Svg={RxPerson}
+                        type="text"
+                        placeholder="Name"
+                        name="name"
+                        id="name"
+                     />
+                     <CreateInput
+                        Svg={RxEnvelopeClosed}
+                        type="email"
+                        placeholder="E-mail"
+                        name="email"
+                        id="email"
+                     />
+                  </Section>
+                  <Section>
+                     <CreateInput
+                        Svg={RxLockClosed}
+                        type="password"
+                        placeholder="Senha"
+                        name="password"
+                        id="password"
+                     />
+                     <CreateInput
+                        Svg={RxLockClosed}
+                        type="password"
+                        placeholder="Confirmar Senha"
+                        name="password"
+                        id="passwordConfirm"
+                     />
+                  </Section>
+                  <Button>Salvar</Button>
+               </ContainerForm>
+            </MaxWidth>
          </MaxWidthScrollbar>
       </ContainerHidden>
    );

@@ -5,14 +5,18 @@ import { Link } from 'react-router-dom';
 import { Header } from '../components/Header';
 import { Post } from '../components/Post';
 
-import { MaxWidthScrollbar, Title,ContainerHidden } from '../styles/styledGlobal';
+import {
+   MaxWidthScrollbar,
+   Title,
+   ContainerHidden,
+   MaxWidth,
+} from '../styles/styledGlobal';
 
 import { theme } from '../theme';
 
-//
 import { posts } from '../informacoes';
 
-const { font, color } = theme;
+const { font, color, border } = theme;
 
 const ContainerButton = styled.div`
    max-width: 20.7rem;
@@ -79,11 +83,30 @@ const Main = styled.main`
    flex-direction: column;
    gap: 3rem;
    padding-top: 3.5rem;
+   padding-inline: 0.5rem;
    padding-bottom: 4.5rem;
+
+   overflow: overlay;
+
+   ::-webkit-scrollbar {
+      width: 0.8rem;
+   }
+
+   ::-webkit-scrollbar-track {
+      background: transparent;
+   }
+
+   ::-webkit-scrollbar-thumb {
+      background: ${color.first};
+      border-radius: ${border.radius};
+   }
+
+   ::-webkit-scrollbar-thumb:hover {
+      background: ${color.firstHover};
+   }
 `;
 
-
-const name = 'Rodrigo Gonçalves silva';
+const name = 'João Lucas da Silva Freita';
 
 export function Home() {
    return (
@@ -91,31 +114,31 @@ export function Home() {
          <Header name={name} url="/profile" />
 
          <MaxWidthScrollbar>
-            <Main>
-               <Section>
-                  <Title>Meus filmes</Title>
-
-                  <ContainerButton>
-                     <ButtonSmall to="/createPost">
-                        <IoAddOutline size={24} />
-
-                        <TextButton>Adicionar Filme</TextButton>
-                     </ButtonSmall>
-                  </ContainerButton>
-               </Section>
-
-               <ContainerPosts>
-                  {posts.map(({ post, title, stars, id, tags }) => (
-                     <Post
-                        id={id}
-                        stars={stars}
-                        title={title}
-                        post={post}
-                        tags={tags}
-                     />
-                  ))}
-               </ContainerPosts>
-            </Main>
+            <MaxWidth>
+               <Main>
+                  <Section>
+                     <Title>Meus filmes</Title>
+                     <ContainerButton>
+                        <ButtonSmall to="/createPost">
+                           <IoAddOutline size={24} />
+                           <TextButton>Adicionar Filme</TextButton>
+                        </ButtonSmall>
+                     </ContainerButton>
+                  </Section>
+                  <ContainerPosts>
+                     {posts.map(({ post, title, stars, id, tags }) => (
+                        <Post
+                           key={id}
+                           id={id}
+                           stars={stars}
+                           title={title}
+                           post={post}
+                           tags={tags}
+                        />
+                     ))}
+                  </ContainerPosts>
+               </Main>
+            </MaxWidth>
          </MaxWidthScrollbar>
       </ContainerHidden>
    );

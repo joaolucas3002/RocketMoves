@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { MdOutlineAdd } from 'react-icons/md';
 
 import { theme } from '../../theme';
+import { validateLinghtString } from '../../utils/validateLinghtString';
 
 const { color, font, border } = theme;
 
-const TagNew = styled.div`
+const NewTag = styled.div`
    border-radius: ${border.radius};
    height: 5.6rem;
    display: flex;
@@ -25,6 +26,10 @@ const TagNew = styled.div`
 
    gap: 1.6rem;
    padding-inline: 1.6rem;
+
+   :focus {
+      border-color: red;
+   }
 `;
 
 const TagIonput = styled.input`
@@ -36,13 +41,21 @@ const TagIonput = styled.input`
    color: ${color.second};
 `;
 
-const ContainerNewTag = styled.button`
-   width: auto;
-   height: auto;
+const size = 24;
+
+const NewTagButton = styled.button`
+   width: ${size / 10}rem;
+   height: ${size / 10}rem;
+   font-size: ${size / 10}rem;
    display: flex;
    justify-content: center;
    align-items: center;
    background-color: transparent;
+   color: ${color.first};
+
+   :hover , :focus{
+      color: ${color.firstHover};
+   }
 `;
 
 interface ValidationToAddNewTagProps {
@@ -60,6 +73,8 @@ function ValidationToAddNewTag({
 }: ValidationToAddNewTagProps) {
    const LowerInput = inputValue?.toLowerCase().trim();
 
+   // LowerInput?.length
+
    LowerInput &&
       !arrayTags.includes(LowerInput) &&
       setArrayTags([...arrayTags, LowerInput]);
@@ -73,16 +88,23 @@ interface AddTagProps {
 
 export function AddTag({ arrayTags, setArrayTags }: AddTagProps) {
    const [inputValue, setInputValue] = useState<string>('');
+   const [styleFocos, setStyleFocos] = useState(`${color.second}`);
 
    return (
-      <TagNew>
+      <NewTag style={{ borderColor: styleFocos }}>
          <TagIonput
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={'Novo marcador'}
+            onFocus={() => {
+               setStyleFocos(`${color.firstHover}`);
+            }}
+            onBlur={() => {
+               setStyleFocos(`${color.second}`);
+            }}
          />
-         <ContainerNewTag
+         <NewTagButton
             onClick={() =>
                ValidationToAddNewTag({
                   inputValue,
@@ -92,12 +114,8 @@ export function AddTag({ arrayTags, setArrayTags }: AddTagProps) {
                })
             }
          >
-            <MdOutlineAdd
-               size={24}
-               color={color.first}
-               style={{ cursor: 'pointer' }}
-            />
-         </ContainerNewTag>
-      </TagNew>
+            <MdOutlineAdd style={{ cursor: 'pointer' }} />
+         </NewTagButton>
+      </NewTag>
    );
 }

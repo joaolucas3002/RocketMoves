@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { theme } from '../theme';
 import image1 from '../assets/image1.png';
-import { MaxWidth } from '../styles/styledGlobal';
+import { ImgCover, MaxWidth } from '../styles/styledGlobal';
 import { Link } from 'react-router-dom';
 import { validateLinghtString } from '../utils/validateLinghtString';
+import RocketMovesInhSVG from '../assets/RocketMovesInhSVG.svg';
 
 const { font, color } = theme;
 
@@ -100,6 +101,10 @@ const ContainerImg = styled(Link)`
    align-items: center;
    background-color: ${color.thirdBg};
 
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
    :focus {
       outline: 2px solid ${color.third};
       outline-offset: 3px;
@@ -112,9 +117,7 @@ interface HeaderProps {
 }
 
 export function Header({ name, url }: HeaderProps) {
-
-
-   const Names = validateLinghtString(name);
+   const valideName = validateLinghtString(name, 20);
 
    return (
       <MarginBottom>
@@ -124,11 +127,11 @@ export function Header({ name, url }: HeaderProps) {
                <Input placeholder="Pesquisar pelo título" />
                <ContainerInfo>
                   <Cont>
-                     <Name>{Names}</Name>
+                     <Name>{valideName}</Name>
                      <Leave>sair</Leave>
                   </Cont>
                   <ContainerImg to={url}>
-                     {/* <img src={image1} alt="" /> */}
+                     <ImgCover src={RocketMovesInhSVG} alt="" />
                   </ContainerImg>
                </ContainerInfo>
             </ContainerHeader>

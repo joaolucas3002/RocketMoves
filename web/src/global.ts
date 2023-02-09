@@ -1,5 +1,7 @@
-import  { createGlobalStyle } from 'styled-components'
-import { theme } from "./theme";
+import { createGlobalStyle } from 'styled-components';
+import { theme } from './theme';
+
+const { color, border } = theme;
 
 export const GlobalStyle = createGlobalStyle`
    *{
@@ -8,6 +10,8 @@ export const GlobalStyle = createGlobalStyle`
       padding:0;
       outline: none;
       box-sizing:border-box;
+
+
    }
    html {
       font-size: 62.5%;
@@ -20,5 +24,4 @@ export const GlobalStyle = createGlobalStyle`
    height: 100%;
    background: ${theme.color.firstBg};
 }
-`
-
+`;

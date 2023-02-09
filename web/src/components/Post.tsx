@@ -5,10 +5,11 @@ import { Subtitle } from '../styles/styledGlobal';
 import { Stars } from './Stars';
 
 import { theme } from '../theme';
+import { validateLinghtString } from '../utils/validateLinghtString';
 
 const { font, color, border } = theme;
 
-const ContainerPost = styled(Link)`
+const ContainerSection = styled(Link)`
    background-color: ${color.first5Alpha};
    padding: 3rem;
    border-radius: 1rem;
@@ -23,7 +24,7 @@ const ContainerPost = styled(Link)`
    }
 `;
 
-const PP = styled.p`
+const ContainerPost = styled.p`
    color: ${color.fifth};
    font-weight: 500;
    font-family: ${font.family.roboto};
@@ -77,30 +78,24 @@ interface PostProps {
 }
 
 export function Post({ title, post, stars, id, tags }: PostProps) {
-   let ValuePost = post;
-
-   if (post.length > 288) {
-      const text = post.substring(0, 285);
-
-      ValuePost = `${text}...`;
-   }
+   let ValuePost = validateLinghtString(post, 288)
 
    return (
-      <ContainerPost to={`/post/${id}`}>
+      <ContainerSection to={`/post/${id}`}>
          <ContainerInfo>
             <Subtitle>{title}</Subtitle>
             <Stars amountOfStar={stars} />
          </ContainerInfo>
-         <PP>{ValuePost}</PP>
+         <ContainerPost>{ValuePost}</ContainerPost>
          {tags.length > 0 && (
             <ContainerTags>
-               {tags.map((tag) => (
-                  <Tag key={tag} to={'#'}>
+               {tags.map((tag, index) => (
+                  <Tag key={`${tag}-${index}`} to={`#`}>
                      {tag}
                   </Tag>
                ))}
             </ContainerTags>
          )}
-      </ContainerPost>
+      </ContainerSection>
    );
 }

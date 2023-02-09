@@ -102,7 +102,7 @@ export function Post() {
 
    const name = 'Rodrigo Gonsalves da silva ';
 
-   const nameLinght = validateLinghtString(name);
+   const nameLinght = validateLinghtString(name, 20);
 
    const Id = params.id ? parseInt(params.id) : 0;
 

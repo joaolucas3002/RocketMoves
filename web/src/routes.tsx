@@ -3,8 +3,8 @@ import { Record } from './pages/Record';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { CreatePost } from './pages/CreatePost';
-import {Post} from './pages/Post';
-import {Profile} from './pages/Profile';
+import { Post } from './pages/Post';
+import { Profile } from './pages/Profile';
 
 export function Routes() {
    return (

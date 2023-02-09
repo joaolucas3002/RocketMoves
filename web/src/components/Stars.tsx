@@ -9,7 +9,7 @@ import { theme } from '../theme';
 
 const { font, color } = theme;
 
-const sizeStars = 18
+const sizeStars = 18;
 
 const ContainerStars = styled.section`
    height: ${sizeStars / 10}rem;
@@ -27,9 +27,9 @@ export function Stars({ amountOfStar }: StarsProps) {
 
       return arr.map((e, index) =>
          index < stars ? (
-            <MdOutlineStar size={sizeStars} />
+            <MdOutlineStar key={index} size={sizeStars} />
          ) : (
-            <MdOutlineStarOutline size={sizeStars} />
+            <MdOutlineStarOutline key={index} size={sizeStars} />
          ),
       );
    }
