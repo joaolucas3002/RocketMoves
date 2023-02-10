@@ -18,15 +18,14 @@ import {
    ContainerLink,
    Img,
    ContainerScrollbar,
-   LinkButton
+   LinkButton,
 } from '../styles/styledsLoaginAndRecord';
 import { TextLink, Button } from '../styles/styledGlobal';
 import { theme } from '../theme';
 
 const { color, font, border } = theme;
 
-
-export function Record() {
+export function SignUp() {
    return (
       <ContainerScrollbar>
          <ContainerMain>
@@ -62,7 +61,7 @@ export function Record() {
                         id="password"
                      />
                   </ContainerInput>
-                  <LinkButton to={"/home"}>Cadastrar</LinkButton>
+                  <LinkButton to={'/home'}>Cadastrar</LinkButton>
                </Form>
                <ContainerLink>
                   <TextLink to="/">

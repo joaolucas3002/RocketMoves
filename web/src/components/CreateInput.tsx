@@ -14,7 +14,7 @@ const Container = styled.div`
    min-width: 100%;
 `;
 
-const Inputs = styled.input`
+const Input = styled.input`
    width: 100%;
    height: 5.2rem;
    border-radius: 1rem;
@@ -24,6 +24,11 @@ const Inputs = styled.input`
    color: ${color.fourthBg};
    font-family: ${font.family.robotoSlab};
    line-height: ${font.lineHeight};
+
+   :focus {
+      outline: 2px solid ${color.first};
+      outline-offset: 3px;
+   }
 
    ::placeholder,
    ::-webkit-input-placeholder {
@@ -50,10 +55,6 @@ interface CreateInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export function CreateInput({
-   id = '',
-   type,
-   placeholder = '',
-   name = '',
    Svg,
    ...rest
 }: CreateInputProps) {
@@ -64,11 +65,7 @@ export function CreateInput({
          <ContainerSvg>
             <Svg size={sizeSVG} color={color.second} />
          </ContainerSvg>
-         <Inputs
-            id={id}
-            name={name}
-            type={type}
-            placeholder={placeholder}
+         <Input
             {...rest}
          />
       </Container>

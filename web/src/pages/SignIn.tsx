@@ -25,7 +25,7 @@ import { Link } from 'react-router-dom';
 
 const { color, font } = theme;
 
-export function Login() {
+export function SignIn() {
    return (
       <ContainerScrollbar>
          <ContainerMain>
