@@ -57,7 +57,7 @@ export function SignIn() {
                   <LinkButton to={'/home'}>Entrar</LinkButton>
                </Form>
                <ContainerLink>
-                  <TextLink to="/record">Criar conta</TextLink>
+                  <TextLink to="/signup">Criar conta</TextLink>
                </ContainerLink>
             </Section>
             <ContainerImg>
