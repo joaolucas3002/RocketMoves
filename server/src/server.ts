@@ -1,9 +1,15 @@
 import fastify from 'fastify';
-import { appRoutes } from './routes';
+import { signUp } from './routes/signUp';
+import { newPost } from './routes/newPost';
+import { home } from './routes/home';
+import { signIn } from './routes/SignIn';
 
 const app = fastify();
 
-app.register(appRoutes);
+app.register(signIn);
+app.register(signUp);
+app.register(home);
+app.register(newPost);
 
 const port = 3333;
 
