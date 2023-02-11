@@ -1,26 +1,38 @@
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
+import dayjs from 'dayjs';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function newPost(app: FastifyInstance) {
    const newPostSchema = z.object({
-      genres: z.string().array().min(0).max(24),
       title: z.string().trim().min(1).max(100),
       star: z.number().min(0).max(5),
       post: z.string().trim().min(3).max(1500),
+      tags: z
+         .string()
+         .array()
+         .min(0)
+         .max(24)
+         .transform((e) => e.map((tag) => ({ tag: tag }))),
    });
 
-   app.post('/newpost', (req, res) => {
-      const data = newPostSchema.parse(req.body);
+   app.post('/newpost', async (req, res) => {
+      const { post, tags, title, star } = newPostSchema.parse(req.body);
 
-      const obj = {
-         data: z.date().safeParse(new Date()),
-      };
+      const date = dayjs().toDate();
 
-      const string =
-         'Borat: o segundo melhor repórter do glorioso país Cazaquistão viaja à América';
+      const y = { post, title, star, tags: { create: tags }, date };
 
-      const y = Object.assign(obj, { dd: string.length, data });
+      try {
+         await prisma.post.create({
+            data: y,
+         });
 
-      res.send({ obj });
+         res.send(y);
+      } catch (error) {
+         console.error(error);
+      }
    });
 }

@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 
-export function signUp(app: FastifyInstance) {
+export async function signUp(app: FastifyInstance) {
    const signUpSchema = z.object({
       name: z.string().trim().min(3).max(50),
       email: z.string().trim().email(),

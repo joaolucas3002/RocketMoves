@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 
-export function home(app: FastifyInstance) {
+export async function home(app: FastifyInstance) {
    const homeSchema = z.object({});
 
    app.post('/home', (req, res) => {
