@@ -1,22 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig({
    plugins: [react()],
    server: {
-      port: 3333,
+      port: 5000,
       watch: {
          usePolling: true,
       },
    },
-})
+});
 
-
-// ,
-//       { "source": "/CreatePost/(.*)", "destination": "/" },
-//       { "source": "/home/(.*)", "destination": "/" },
-//       { "source": "/login/(.*)", "destination": "/" },
-//       { "source": "/post/(.*)", "destination": "/" },
-//       { "source": "/profile/(.*)", "destination": "/" },
-//       { "source": "/record/(.*)", "destination": "/" }
+//   http://0.0.0.0:3000/

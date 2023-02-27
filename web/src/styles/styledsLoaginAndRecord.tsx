@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../theme';
+import { Button } from './styledGlobal';
 
 const { color, font, border } = theme;
 
@@ -86,8 +87,7 @@ export const ContainerInput = styled.div`
 `;
 
 export const ContainerLink = styled.div`
-
-border-radius: ${border.radius};
+   border-radius: ${border.radius};
    align-items: center;
    width: 100%;
    display: flex;
@@ -109,14 +109,13 @@ export const ContainerImg = styled.div`
    }
 `;
 
-export const LinkButton = styled(Link)`
+export const LinkButton = styled.button`
    height: 5.6rem;
    width: 100%;
 
    border-radius: ${border.radius};
    background-color: ${color.first};
    cursor: pointer;
-
 
    display: flex;
    justify-content: center;
@@ -129,13 +128,12 @@ export const LinkButton = styled(Link)`
    line-height: ${font.lineHeight};
    text-decoration: none;
 
-
    :focus {
       outline: 2px solid ${color.fourth};
       outline-offset: 3px;
    }
 
-   :hover{
+   :hover {
       text-decoration: underline;
    }
 `;
@@ -149,4 +147,19 @@ export const Img = styled.img`
    min-height: 100%;
    height: auto;
    width: auto;
+`;
+
+export const ContainerError = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem;
+   width: 100%;
+`;
+
+export const InputError = styled.label`
+   color: #f15856 /* ${color.error} */;
+   font-family: ${font.family.roboto};
+   padding-inline: 2rem;
+   font-size: ${font.size.sm};
+   line-height: ${font.lineHeight};
 `;

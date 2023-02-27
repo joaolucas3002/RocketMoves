@@ -17,6 +17,8 @@ import {
 } from '../styles/styledGlobal';
 import { theme } from '../theme';
 import { validateLinghtString } from '../utils/validateLinghtString';
+import { useEffect, useState } from 'react';
+import { fetchPost } from '../utils/fetchPost';
 
 const { color, font, border } = theme;
 
@@ -63,6 +65,7 @@ const Date = styled.span`
 const Text = styled.p`
    color: ${color.third};
    font-size: ${font.size.base};
+   overflow-wrap: break-word;
    font-weight: 400;
    line-height: ${font.lineHeight};
    font-family: ${font.family.robotoSlab};
@@ -98,16 +101,54 @@ const Tag = styled(Link)`
    }
 `;
 
+interface GetPostProsp {
+   date: string;
+   id: string;
+   post: string;
+   stars: number;
+   tags: Tag[];
+   title: string;
+   user: { userName: string };
+}
+
+interface Tag {
+   tag: string;
+}
+
 export function Post() {
+   const [GetPost, setGetPost] = useState<GetPostProsp>();
+   const token = localStorage.getItem('token');
+
    const params = useParams();
 
-   const name = 'Rodrigo Gonsalves da silva ';
+   const props = {
+      body: {
+         token,
+      },
+      parens: `/post/${params.id}`,
+   };
+
+   useEffect(() => {
+      (async () => {
+         try {
+            const rest = await fetchPost(props);
+
+            const body = await rest.json();
+
+            setGetPost(body);
+
+            console.log(body);
+         } catch (error) {
+            console.log(error);
+         }
+      })();
+   }, []);
+
+   const name = 'Rodrigo Gonsalves da silva';
 
    const nameLinght = validateLinghtString(name, 20);
 
    const Id = params.id ? parseInt(params.id) : 0;
-
-   const { title, tags, post, stars } = posts[Id];
 
    return (
       <ContainerHidden>
@@ -115,32 +156,34 @@ export function Post() {
 
          <MaxWidthScrollbar>
             <MaxWidth>
-               <ContainerMain>
-                  <ContainerInfo>
-                     <ButtonHistory>
-                        <TbArrowLeft /> Voltar
-                     </ButtonHistory>
-                     <ContainerWrap>
-                        <Title>{title}</Title>
-                        <Stars amountOfStar={stars} />
-                     </ContainerWrap>
-                     <ContainerWrap>
-                        <Name>Por {nameLinght}</Name>
-                        <Date>
-                           <FiClock color={color.first} />
-                           23/02/22 às 08:00
-                        </Date>
-                     </ContainerWrap>
-                  </ContainerInfo>
-                  <ContainerTag>
-                     {tags.map((tag, index) => (
-                        <Tag key={`${tag}-${index}`} to={'#'}>
-                           {tag}
-                        </Tag>
-                     ))}
-                  </ContainerTag>
-                  <Text>{post}</Text>
-               </ContainerMain>
+               {GetPost && (
+                  <ContainerMain>
+                     <ContainerInfo>
+                        <ButtonHistory>
+                           <TbArrowLeft /> Voltar
+                        </ButtonHistory>
+                        <ContainerWrap>
+                           <Title>{GetPost.title}</Title>
+                           <Stars amountOfStar={GetPost.stars} />
+                        </ContainerWrap>
+                        <ContainerWrap>
+                           <Name>Por {GetPost?.user?.userName}</Name>
+                           <Date>
+                              <FiClock color={color.first} />
+                              23/02/22 às 08:00
+                           </Date>
+                        </ContainerWrap>
+                     </ContainerInfo>
+                     <ContainerTag>
+                        {GetPost.tags.map(({ tag }, index) => (
+                           <Tag key={`${tag}-${index}`} to={'#'}>
+                              {tag}
+                           </Tag>
+                        ))}
+                     </ContainerTag>
+                     <Text>{GetPost.post}</Text>
+                  </ContainerMain>
+               )}
             </MaxWidth>
          </MaxWidthScrollbar>
       </ContainerHidden>

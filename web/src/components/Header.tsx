@@ -80,6 +80,8 @@ const Name = styled.h3`
    font-size: ${font.size.sm};
    font-weight: 700;
    line-height: ${font.lineHeight};
+   text-overflow: ellipsis;
+
 `;
 
 const Leave = styled.span`

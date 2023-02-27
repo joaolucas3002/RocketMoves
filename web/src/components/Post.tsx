@@ -9,7 +9,7 @@ import { validateLinghtString } from '../utils/validateLinghtString';
 
 const { font, color, border } = theme;
 
-const ContainerSection = styled(Link)`
+const ContainerArticle = styled.article`
    background-color: ${color.first5Alpha};
    padding: 3rem;
    border-radius: 1rem;
@@ -17,6 +17,7 @@ const ContainerSection = styled(Link)`
    flex-direction: column;
    gap: 1.3rem;
    text-decoration: none;
+   overflow: hidden;
 
    :focus {
       outline: 2px solid ${color.first};
@@ -25,8 +26,10 @@ const ContainerSection = styled(Link)`
 `;
 
 const ContainerPost = styled.p`
+
    color: ${color.fifth};
    font-weight: 500;
+   overflow-wrap: break-word;
    font-family: ${font.family.roboto};
    font-size: ${font.size.base};
    line-height: ${font.lineHeight};
@@ -36,6 +39,11 @@ const ContainerInfo = styled.div`
    display: flex;
    flex-direction: column;
    gap: 0.8rem;
+   width: fit-content;
+`;
+
+const LinkPost = styled(Link)`
+   text-decoration: none;
 `;
 
 const ContainerTags = styled.div`
@@ -78,24 +86,26 @@ interface PostProps {
 }
 
 export function Post({ title, post, stars, id, tags }: PostProps) {
-   let ValuePost = validateLinghtString(post, 288)
+   let ValuePost = validateLinghtString(post, 288);
 
    return (
-      <ContainerSection to={`/post/${id}`}>
-         <ContainerInfo>
-            <Subtitle>{title}</Subtitle>
-            <Stars amountOfStar={stars} />
-         </ContainerInfo>
-         <ContainerPost>{ValuePost}</ContainerPost>
+      <ContainerArticle>
+         <LinkPost to={`/post/${id}`}>
+            <ContainerInfo>
+               <Subtitle>{title}</Subtitle>
+               <Stars amountOfStar={stars} />
+            </ContainerInfo>
+            <ContainerPost>{ValuePost}</ContainerPost>
+         </LinkPost>
          {tags.length > 0 && (
             <ContainerTags>
                {tags.map((tag, index) => (
-                  <Tag key={`${tag}-${index}`} to={`#`}>
+                  <Tag key={`-${index}`} to="#">
                      {tag}
                   </Tag>
                ))}
             </ContainerTags>
          )}
-      </ContainerSection>
+      </ContainerArticle>
    );
 }

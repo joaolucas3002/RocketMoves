@@ -5,29 +5,71 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
 datasource db {
-  provider     = "sqlite"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// model PostTag {
+//   id     String @id @default(uuid())
+//   postId String @unique
+//   post   Post   @relation(fields: [postId], references: [id])
+//   tagId  String @unique
+//   tag    Tag    @relation(fields: [tagId], references: [tag])
+// }
+
+// model Post {
+//   id    String   @id @default(uuid())
+//   date  DateTime @default(now())
+//   title String
+//   post  String
+//   star  Int      @default(0)
+//   tagId String   @unique
+//   tags  Tag      @relation(fields: [tagId])
+
+//   @@map("posts")
+// }
+
+// model Tag {
+//   tag    String @id
+//   postId String @unique
+//   post   Post   @relation(fields: [postId], references: [id])
+
+//   @@map("tags")
+// }
+
+model User {
+  id       String @id @default(uuid())
+  userName String @unique
+  email    String @unique
+  password String
+  posts    Post[]
+  createdAt DateTime @default(now())
+
+  @@map("user")
 }
 
 model Post {
-  id    String   @id @default(uuid())
-  date  DateTime @default(now())
-  title String
-  post  String
-  star  Int      @default(0)
-  tags  Tag[]
+  id     String   @id @default(uuid())
+  date   DateTime @default(now())
+  title  String
+  post   String
+  userId String
+  user   User     @relation(fields: [userId], references: [id])
+  stars   Int      @default(0)
+  tags   Tag[]
 
   @@map("posts")
 }
 
 model Tag {
-  id     String @id @default(uuid())
-  tag    String
-  post   Post   @relation(fields: [postId], references: [id])
-  postId String
+  id    String @id @default(uuid())
+  tag   String
+  posts Post[]
 
-  @@index([postId])
   @@map("tags")
 }

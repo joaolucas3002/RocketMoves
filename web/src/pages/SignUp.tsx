@@ -17,15 +17,50 @@ import {
    ContainerImg,
    ContainerLink,
    Img,
+   ContainerError,
    ContainerScrollbar,
    LinkButton,
+   InputError,
 } from '../styles/styledsLoaginAndRecord';
 import { TextLink, Button } from '../styles/styledGlobal';
 import { theme } from '../theme';
+import { FormEvent, useState } from 'react';
+import axios from 'axios';
+import { ResponseWithToken } from '../interfaces/ResponseWithToken';
+import ifTokenValidCookie from '../utils/ifTokenValidAddLocalStorage';
+import { baseURL } from '../lib/fetch';
+import { fetchPost } from '../utils/fetchPost';
+import { useNavigate } from 'react-router-dom'; // import do hook
+import { ZodError } from 'zod';
 
 const { color, font, border } = theme;
 
+interface ObjProps {
+   userName: string;
+   email: string;
+   password: string;
+}
+
 export function SignUp() {
+   const [Obj, setObj] = useState<ObjProps>({
+      userName: '',
+      email: '',
+      password: '',
+   });
+   const [Error, setError] = useState<string>('');
+
+   async function SubmitForm(event: FormEvent<HTMLFormElement>) {
+      event.preventDefault();
+
+      // const history = useNavigate()
+
+      const props = { body: Obj, parens: '/signup' };
+
+      const rest = await fetchPost(props);
+
+      // rest && (await ifTokenValidCookie(rest));
+   }
+
    return (
       <ContainerScrollbar>
          <ContainerMain>
@@ -37,31 +72,55 @@ export function SignUp() {
                   </Description>
                </div>
                <Subtitle>Crie sua conta</Subtitle>
-               <Form>
+               <Form
+                  name="SignUpForm"
+                  onSubmit={(e) => SubmitForm(e)}
+                  action=""
+                  method="POST"
+                  target="_blank"
+               >
                   <ContainerInput>
-                     <CreateInput
-                        Svg={RxPerson}
-                        type="text"
-                        placeholder="Name"
-                        name="name"
-                        id="name"
-                     />
-                     <CreateInput
-                        Svg={RxEnvelopeClosed}
-                        type="email"
-                        placeholder="E-mail"
-                        name="email"
-                        id="email"
-                     />
-                     <CreateInput
-                        Svg={RxLockClosed}
-                        type="password"
-                        placeholder="Senha"
-                        name="password"
-                        id="password"
-                     />
+                     <ContainerError>
+                        <CreateInput
+                           Svg={RxPerson}
+                           type="text"
+                           placeholder="Usuário"
+                           name="userName"
+                           id="userName"
+                           onChange={(e) =>
+                              setObj({ ...Obj, userName: e.target.value })
+                           }
+                           value={Obj.userName}
+                        />
+                     </ContainerError>
+                     <ContainerError>
+                        <CreateInput
+                           Svg={RxEnvelopeClosed}
+                           type="email"
+                           placeholder="E-mail"
+                           name="email"
+                           id="email"
+                           onChange={(e) =>
+                              setObj({ ...Obj, email: e.target.value })
+                           }
+                           value={Obj.email}
+                        />
+                     </ContainerError>
+                     <ContainerError>
+                        <CreateInput
+                           Svg={RxLockClosed}
+                           type="password"
+                           placeholder="Senha"
+                           name="password"
+                           id="password"
+                           onChange={(e) =>
+                              setObj({ ...Obj, password: e.target.value })
+                           }
+                           value={Obj.password}
+                        />
+                     </ContainerError>
                   </ContainerInput>
-                  <LinkButton to={'/home'}>Cadastrar</LinkButton>
+                  <LinkButton>Cadastrar</LinkButton>
                </Form>
                <ContainerLink>
                   <TextLink to="/">

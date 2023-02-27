@@ -18,6 +18,7 @@ import {
 } from '../../styles/styledGlobal';
 import { ButtonProportions } from '../../styles/styledGlobal';
 import { theme } from '../../theme';
+import { fetchPost } from '../../utils/fetchPost';
 
 const { color, font, border } = theme;
 
@@ -149,15 +150,38 @@ const ContainerStars = styled.section`
 export function CreatePost() {
    const [arrayTags, setArrayTags] = useState<string[]>([]);
    const [stars, setStars] = useState<number>(0);
+   const [inputValue, setInputValue] = useState<string>('');
+   const [textarea, setTextarea] = useState<string>('');
 
    const name = 'Rodrigo Gonçalves silva';
 
-   async function names(params: any) {
+   async function AddPost() {
+      const token = localStorage.getItem('token');
 
-      const get = await fetch("/newpost")
-      const y = await get.json()
-      
+      const props = {
+         body: {
+            title: inputValue,
+            stars: stars,
+            tags: arrayTags,
+            post: textarea,
+            token,
+         },
+         parens: '/post/new',
+      };
 
+      console.log(props);
+
+      try {
+         const rest = await fetchPost(props);
+
+
+         setArrayTags([]);
+         setStars(0);
+         setInputValue('');
+         setTextarea('');
+      } catch (error) {
+         console.error(error);
+      }
    }
 
    return (
@@ -174,13 +198,26 @@ export function CreatePost() {
                      <Title>Comentario</Title>
                   </ContainerColumn>
                   <ContainerRow>
-                     <Input type="text" placeholder="Título" />
+                     <Input
+                        value={inputValue}
+                        onChange={(e) => {
+                           setInputValue(e.target.value);
+                        }}
+                        type="text"
+                        placeholder="Título"
+                     />
+
                      <ContainerStars>
                         <CreateStar indexStar={stars} setStars={setStars} />
                      </ContainerStars>
                   </ContainerRow>
                   <div>
-                     <Textarea name="" id="" />
+                     <Textarea
+                        value={textarea}
+                        onChange={(e) => setTextarea(e.target.value)}
+                        name=""
+                        id=""
+                     />
                   </div>
                   <ContainerColumn>
                      <TitleH2>Marcadores</TitleH2>
@@ -201,7 +238,7 @@ export function CreatePost() {
                   </ContainerColumn>
                   <ContainerRow>
                      <ButtonClose>Excluir</ButtonClose>
-                     <Button>Salvar</Button>
+                     <Button onClick={AddPost}>Salvar</Button>
                   </ContainerRow>
                </ContainerMain>
             </MaxWidth>

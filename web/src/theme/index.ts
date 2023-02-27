@@ -20,6 +20,7 @@ export interface Color {
    fourth: string;
    fourthBg: string;
    fifth: string;
+   error: string;
 }
 
 export interface Font {
@@ -59,6 +60,7 @@ export const theme: Theme = {
       fourthBg: '#3E3B47',
 
       fifth: '#999591',
+      error: "#f15856"
    },
    font: {
       size: {
