@@ -1,12 +1,12 @@
 import { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { prismaQuery } from '../lib/prisma';
+import { validateToken } from '../utils/validateToken';
 
 export async function home(app: FastifyInstance) {
    const homeSchema = z.object({});
 
-   app.post('/home', async (req, res) => {
-      const randon = Math.random();
+   app.post('/home', { preHandler: validateToken }, async (req, res) => {
 
       try {
          const dade = await prismaQuery.post.findMany({

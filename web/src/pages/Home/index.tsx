@@ -10,8 +10,6 @@ import {
 } from '../../styles/styledGlobal';
 import z from 'zod';
 
-import { posts } from '../../informacoes';
-
 import {
    ButtonSmall,
    ContainerButton,
@@ -20,79 +18,122 @@ import {
    Section,
    TextButton,
 } from './styled';
-import { useEffect, useState } from 'react';
-import { fetchPost } from '../../utils/fetchPost';
+import { useContext, useEffect, useState } from 'react';
+import { AuthContextFetch } from '../../utils/AuthContextFetch';
+import { baseURL } from '../../lib/fetch';
+import { configFetch } from '../../utils/configFetch';
+import { AuthContext } from '../../context/RootRouter';
+import {
+   Link,
+   LoaderFunctionArgs,
+   useLoaderData,
+   useLocation,
+} from 'react-router-dom';
+import { Pagination } from '../../components/Pagination';
+import { useURLSearchParams } from '../../hooks/useURLSearchParams';
 
 interface PosptsProps {
    title: string;
-   post: string;
+   body: string;
    stars: number;
    id: string;
    tags: { tag: string }[];
 }
 
-const name = 'João Lucas da Silva Freita';
+interface objPorps {
+   posts: PosptsProps[];
+   validate: boolean;
+   isAuthenticated: boolean;
+   previous: number | undefined;
+   next: number | undefined;
+   page: number;
+   query: string;
+}
+
+export async function loaderHome({ request }: LoaderFunctionArgs) {
+   try {
+      const token = localStorage.getItem('token');
+
+      const SearchParams = useURLSearchParams(request.url);
+
+      const page = SearchParams.get('page');
+
+      const query = SearchParams.get('query');
+
+      const pageValidation = Number(page) ? Number(page) : 1;
+
+      console.log({ pageValidation });
+
+      const queryValidation = query ? query : '';
+
+      const response = await fetch(
+         'http://localhost:3000/post',
+         configFetch({
+            method: 'POST',
+            body: JSON.stringify({
+               token,
+               page: pageValidation,
+               query: queryValidation,
+            }),
+         }),
+      );
+
+      const Result = await response.json();
+      console.log(Result);
+
+      if (Result?.isAuthenticated == true) {
+         const { isAuthenticated, ...rest } = Result;
+
+         return { validate: true, ...rest };
+      } else {
+         return { posts: [], validate: true };
+      }
+   } catch (error) {}
+}
 
 export function Home() {
-   const [Posts, setPosts] = useState<PosptsProps[]>([]);
+   const { isAuthenticated } = useContext(AuthContext);
 
-   useEffect(() => {
-      const local = localStorage.getItem('token');
+   const { posts, validate, previous, page, next, query }: objPorps =
+      useLoaderData() as objPorps;
 
-      const token = local ? local : '';
-
-      const props = {
-         body: { token },
-         parens: '/post',
-      };
-      (async () => {
-         try {
-            const rest = await fetchPost(props);
-
-            if (rest.ok) {
-               const ttt = await rest.json();
-
-               return setPosts(ttt);
-            }
-         } catch (error) {
-            console.log(error);
-            return setPosts([]);
-         }
-      })();
-   }, []);
+   // useEffect(() => setIsAuthenticated?.(validate), [isAuthenticated]);
 
    return (
-      <ContainerHidden>
-         <Header name={name} url="/profile" />
+      <MaxWidthScrollbar>
+         <MaxWidth>
+            <Main>
+               <Section>
+                  <Title>Meus filmes</Title>
+                  <ContainerButton>
+                     <ButtonSmall to="post/new">
+                        <IoAddOutline size={24} />
+                        <TextButton>Adicionar Filme</TextButton>
+                     </ButtonSmall>
+                  </ContainerButton>
+               </Section>
+               <ContainerPosts>
+                  {posts?.length > 0 &&
+                     posts.map(({ body, title, id, tags, stars }) => (
+                        <Post
+                           key={id}
+                           id={id}
+                           stars={stars}
+                           title={title}
+                           post={body}
+                           tags={tags.map((t) => t.tag)}
+                        />
+                     ))}
+               </ContainerPosts>
 
-         <MaxWidthScrollbar>
-            <MaxWidth>
-               <Main>
-                  <Section>
-                     <Title>Meus filmes</Title>
-                     <ContainerButton>
-                        <ButtonSmall to="/createPost">
-                           <IoAddOutline size={24} />
-                           <TextButton>Adicionar Filme</TextButton>
-                        </ButtonSmall>
-                     </ContainerButton>
-                  </Section>
-                  <ContainerPosts>
-                     {Posts.length > 0 &&
-                        Posts.map(({ post, title, id, tags, stars }) => (
-                           <Post
-                              key={id}
-                              id={id}
-                              stars={stars}
-                              title={title}
-                              post={post}
-                              tags={tags.map((t) => t.tag)}
-                           />
-                        ))}
-                  </ContainerPosts>
-               </Main>
-            </MaxWidth>
-         </MaxWidthScrollbar>
-      </ContainerHidden>
+               <Pagination
+                  previous={previous}
+                  page={page}
+                  next={next}
+                  query={query}
+               />
+            </Main>
+         </MaxWidth>
+      </MaxWidthScrollbar>
    );
 }

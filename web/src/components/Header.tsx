@@ -2,9 +2,16 @@ import styled from 'styled-components';
 import { theme } from '../theme';
 import image1 from '../assets/image1.png';
 import { ImgCover, MaxWidth } from '../styles/styledGlobal';
-import { Link } from 'react-router-dom';
-import { validateLinghtString } from '../utils/validateLinghtString';
+import {
+   Link,
+   Form as FormRouter,
+   ActionFunctionArgs,
+   useNavigate,
+   redirect,
+   NavigateFunction,
+} from 'react-router-dom';
 import RocketMovesInhSVG from '../assets/RocketMovesInhSVG.svg';
+import { FormEvent, FormEventHandler, useState } from 'react';
 
 const { font, color } = theme;
 
@@ -36,6 +43,10 @@ const Logo = styled(Link)`
    }
 `;
 
+const Form = styled.form`
+   width: 100%;
+`;
+
 const Input = styled.input`
    font-size: ${font.size.sm};
    width: 100%;
@@ -62,10 +73,12 @@ const ContainerInfo = styled.div`
 `;
 
 const Cont = styled.div`
+   width: min(13vw);
+   max-width: min-content;
    display: flex;
+   overflow: hidden;
    flex-direction: column;
    justify-content: center;
-   align-items: flex-end;
 
    @media (max-width: 768px) {
       display: none;
@@ -73,15 +86,14 @@ const Cont = styled.div`
 `;
 
 const Name = styled.h3`
-   width: 100%;
    white-space: nowrap;
+   text-overflow: ellipsis;
+   overflow: hidden;
    color: ${color.third};
    font-family: ${font.family.robotoSlab};
    font-size: ${font.size.sm};
    font-weight: 700;
    line-height: ${font.lineHeight};
-   text-overflow: ellipsis;
-
 `;
 
 const Leave = styled.span`
@@ -118,18 +130,41 @@ interface HeaderProps {
    url: string;
 }
 
-export function Header({ name, url }: HeaderProps) {
-   const valideName = validateLinghtString(name, 20);
+function SubmitFormHeader(
+   event: FormEvent<HTMLFormElement>,
+   navigate: NavigateFunction,
+   query: string,
+) {
+   event.preventDefault();
+
+   query ? navigate(`/?query=${query}`) : navigate(`/`);
+}
+
+export function Header({ name = '', url = '#' }: HeaderProps) {
+   const [query, setQuery] = useState<string>('');
+   const navigate = useNavigate();
 
    return (
       <MarginBottom>
          <MaxWidth>
             <ContainerHeader>
-               <Logo to={'/home'}>RocketMovies</Logo>
-               <Input placeholder="Pesquisar pelo título" />
+               <Logo to={'/'}>RocketMovies</Logo>
+               <Form
+                  onSubmit={(e) => {
+                     SubmitFormHeader(e, navigate, query);
+                  }}
+               >
+                  <Input
+                     placeholder="Pesquisar pelo título"
+                     name="query"
+                     onChange={(e) => {
+                        setQuery(e.target.value);
+                     }}
+                  />
+               </Form>
                <ContainerInfo>
                   <Cont>
-                     <Name>{valideName}</Name>
+                     <Name>{name}</Name>
                      <Leave>sair</Leave>
                   </Cont>
                   <ContainerImg to={url}>

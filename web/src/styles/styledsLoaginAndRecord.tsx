@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from '../theme';
 import { Button } from './styledGlobal';
+import { Form as FormRouter } from 'react-router-dom';
 
 const { color, font, border } = theme;
 
@@ -71,7 +72,7 @@ export const Section = styled.section`
    gap: 3.6rem;
 `;
 
-export const Form = styled.form`
+export const Form = styled(FormRouter)`
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -160,6 +161,6 @@ export const InputError = styled.label`
    color: #f15856 /* ${color.error} */;
    font-family: ${font.family.roboto};
    padding-inline: 2rem;
-   font-size: ${font.size.sm};
+   font-size: ${font.size.xs};
    line-height: ${font.lineHeight};
 `;

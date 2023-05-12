@@ -10,6 +10,7 @@ const Tag = styled.div`
    background-color: ${color.secondBg};
    border-radius: ${border.radius};
    padding: 1.6rem;
+   width:fit-content;
 
    border-radius: ${border.radius};
    height: 5.6rem;

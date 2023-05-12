@@ -14,54 +14,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model PostTag {
-//   id     String @id @default(uuid())
-//   postId String @unique
-//   post   Post   @relation(fields: [postId], references: [id])
-//   tagId  String @unique
-//   tag    Tag    @relation(fields: [tagId], references: [tag])
-// }
-
-// model Post {
-//   id    String   @id @default(uuid())
-//   date  DateTime @default(now())
-//   title String
-//   post  String
-//   star  Int      @default(0)
-//   tagId String   @unique
-//   tags  Tag      @relation(fields: [tagId])
-
-//   @@map("posts")
-// }
-
-// model Tag {
-//   tag    String @id
-//   postId String @unique
-//   post   Post   @relation(fields: [postId], references: [id])
-
-//   @@map("tags")
-// }
-
 model User {
-  id       String @id @default(uuid())
-  userName String @unique
-  email    String @unique
-  password String
-  posts    Post[]
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  userName   String   @unique
+  email      String   @unique
+  name       String?
+  password   String
+  posts      Post[]
+  loginToken String   @default("")
 
   @@map("user")
 }
 
 model Post {
-  id     String   @id @default(uuid())
-  date   DateTime @default(now())
-  title  String
-  post   String
-  userId String
-  user   User     @relation(fields: [userId], references: [id])
-  stars   Int      @default(0)
-  tags   Tag[]
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  published Boolean  @default(false)
+  title     String
+  body      String
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  stars     Int      @default(0)
+  tags      Tag[]
 
   @@map("posts")
 }

@@ -1,13 +1,17 @@
 import { TbArrowLeft } from 'react-icons/tb';
 import { FiClock } from 'react-icons/fi';
 
-import { Link, useParams } from 'react-router-dom';
+import {
+   Link,
+   LoaderFunctionArgs,
+   useLoaderData,
+   useParams,
+} from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ButtonHistory } from '../components/ButtonHistory';
 import { Header } from '../components/Header';
 import { Stars } from '../components/Stars';
-import { posts } from '../informacoes';
 
 import {
    MaxWidthScrollbar,
@@ -16,9 +20,10 @@ import {
    MaxWidth,
 } from '../styles/styledGlobal';
 import { theme } from '../theme';
-import { validateLinghtString } from '../utils/validateLinghtString';
 import { useEffect, useState } from 'react';
-import { fetchPost } from '../utils/fetchPost';
+import { configFetch } from '../utils/configFetch';
+import { baseURL } from '../lib/fetch';
+import { AuthContextFetch } from '../utils/AuthContextFetch';
 
 const { color, font, border } = theme;
 
@@ -49,7 +54,6 @@ const Name = styled.span`
    font-weight: 400;
    line-height: ${font.lineHeight};
 `;
-//FiClock
 const Date = styled.span`
    color: ${color.third};
    font-family: ${font.family.roboto};
@@ -116,76 +120,60 @@ interface Tag {
 }
 
 export function Post() {
-   const [GetPost, setGetPost] = useState<GetPostProsp>();
-   const token = localStorage.getItem('token');
-
-   const params = useParams();
-
-   const props = {
-      body: {
-         token,
-      },
-      parens: `/post/${params.id}`,
-   };
-
-   useEffect(() => {
-      (async () => {
-         try {
-            const rest = await fetchPost(props);
-
-            const body = await rest.json();
-
-            setGetPost(body);
-
-            console.log(body);
-         } catch (error) {
-            console.log(error);
-         }
-      })();
-   }, []);
-
-   const name = 'Rodrigo Gonsalves da silva';
-
-   const nameLinght = validateLinghtString(name, 20);
-
-   const Id = params.id ? parseInt(params.id) : 0;
+   const GetPost = useLoaderData() as GetPostProsp;
 
    return (
-      <ContainerHidden>
-         <Header name={nameLinght} url="/profile" />
-
-         <MaxWidthScrollbar>
-            <MaxWidth>
-               {GetPost && (
-                  <ContainerMain>
-                     <ContainerInfo>
-                        <ButtonHistory>
-                           <TbArrowLeft /> Voltar
-                        </ButtonHistory>
-                        <ContainerWrap>
-                           <Title>{GetPost.title}</Title>
-                           <Stars amountOfStar={GetPost.stars} />
-                        </ContainerWrap>
-                        <ContainerWrap>
-                           <Name>Por {GetPost?.user?.userName}</Name>
-                           <Date>
-                              <FiClock color={color.first} />
-                              23/02/22 às 08:00
-                           </Date>
-                        </ContainerWrap>
-                     </ContainerInfo>
-                     <ContainerTag>
-                        {GetPost.tags.map(({ tag }, index) => (
-                           <Tag key={`${tag}-${index}`} to={'#'}>
-                              {tag}
-                           </Tag>
-                        ))}
-                     </ContainerTag>
-                     <Text>{GetPost.post}</Text>
-                  </ContainerMain>
-               )}
-            </MaxWidth>
-         </MaxWidthScrollbar>
-      </ContainerHidden>
+      <MaxWidthScrollbar>
+         <MaxWidth>
+            <ContainerMain>
+               <ContainerInfo>
+               <ButtonHistory>
+                     <TbArrowLeft /> Voltar
+                  </ButtonHistory>
+                  <ContainerWrap>
+                     <Title>{GetPost.title}</Title>
+                     <Stars amountOfStar={GetPost.stars} />
+                  </ContainerWrap>
+                  <ContainerWrap>
+                     <Name>Por {GetPost?.user?.userName}</Name>
+                     <Date>
+                        <FiClock color={color.first} />
+                        23/02/22 às 08:00
+                     </Date>
+                  </ContainerWrap>
+               </ContainerInfo>
+               <ContainerTag>
+                  {GetPost.tags.map(({ tag }, index) => (
+                     <Tag key={`${tag}-${index}`} to={'#'}>
+                        {tag}
+                     </Tag>
+                  ))}
+               </ContainerTag>
+               <Text>{GetPost.post}</Text>
+            </ContainerMain>
+         </MaxWidth>
+      </MaxWidthScrollbar>
    );
+}
+
+export async function getPost({ params }: LoaderFunctionArgs) {
+   const { id } = params;
+
+   try {
+      const res = await fetch(
+         `${baseURL}/post/${id}`,
+         configFetch({ method: 'GET' }),
+      );
+      const json = await res.json();
+
+      console.log(json);
+
+      if (!res?.ok) {
+         throw new Error('erroe reoor ');
+      }
+
+      return json;
+   } catch (error) {
+      throw new Error('erroe reoor ');
+   }
 }

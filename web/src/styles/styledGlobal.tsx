@@ -27,6 +27,7 @@ export const MaxWidthScrollbar = styled.div`
 
    ::-webkit-scrollbar {
       width: 0.8rem;
+      height: 0.8rem;
    }
 
    ::-webkit-scrollbar-track {

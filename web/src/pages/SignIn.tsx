@@ -17,54 +17,32 @@ import {
    Img,
    ContainerScrollbar,
    LinkButton,
+   ContainerError,
+   InputError,
 } from '../styles/styledsLoaginAndRecord';
 import { TextLink, Button } from '../styles/styledGlobal';
 import { theme } from '../theme';
-import { FormEvent, useEffect, useState } from 'react';
+import { configFetch } from '../utils/configFetch';
 import { baseURL } from '../lib/fetch';
-import { fetchPost } from '../utils/fetchPost';
-import ifTokenValidCookie from '../utils/ifTokenValidAddLocalStorage';
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import {
+   ActionFunctionArgs,
 
-const { color, font } = theme;
+   useActionData,
+} from 'react-router-dom';
 
-async function validadeError(rest: Response) {
-   const { message } = await rest.json();
-
-   if (typeof message === 'string') {
-      const yy = await JSON.parse(message);
-
-      console.log(yy);
-   } else {
-      console.log(message);
-   }
+interface ErrorProps {
+   message: string;
+   path: string[];
 }
 
-interface ObjProps {
-   email: string;
-   password: string;
+interface errorsProps {
+   isAuthenticated: boolean;
+   email?: string;
+   password?: string;
 }
 
 export function SignIn() {
-   const [Obj, setObj] = useState<ObjProps>({
-      email: '',
-      password: '',
-   });
-
-   async function SubmitForm(event: FormEvent<HTMLFormElement>) {
-      event.preventDefault();
-
-      const restt =
-       await fetchPost({ parens: '/', body: Obj });
-      //  await axios.post(`${baseURL}${'/'}`, Obj,{
-      //    withCredentials: true,
-      //  });
-
-      const cook = Cookies;
-
-      console.log(restt, cook);
-   }
+   const errors = useActionData() as errorsProps;
 
    return (
       <ContainerScrollbar>
@@ -77,30 +55,30 @@ export function SignIn() {
                   </Description>
                </div>
                <Subtitle>Faça seu login</Subtitle>
-               <Form onSubmit={(e) => SubmitForm(e)}>
+               <Form method="POST" action="/login">
                   <ContainerInput>
-                     <CreateInput
-                        Svg={RxEnvelopeClosed}
-                        type="text"
-                        placeholder="E-mail"
-                        name="email"
-                        id="email"
-                        onChange={(e) =>
-                           setObj({ ...Obj, email: e.target.value })
-                        }
-                        value={Obj.email}
-                     />
-                     <CreateInput
-                        Svg={RxLockClosed}
-                        type="password"
-                        placeholder="Senha"
-                        name="password"
-                        id="password"
-                        onChange={(e) =>
-                           setObj({ ...Obj, password: e.target.value })
-                        }
-                        value={Obj.password}
-                     />
+                     <ContainerError>
+                        <CreateInput
+                           Svg={RxEnvelopeClosed}
+                           type="text"
+                           placeholder="E-mail"
+                           name="email"
+                        />
+                        {errors?.email && (
+                           <InputError>{errors.email}</InputError>
+                        )}
+                     </ContainerError>
+                     <ContainerError>
+                        <CreateInput
+                           Svg={RxLockClosed}
+                           type="password"
+                           placeholder="Senha"
+                           name="password"
+                        />
+                        {errors?.password && (
+                           <InputError>{errors.password}</InputError>
+                        )}
+                     </ContainerError>
                   </ContainerInput>
                   <LinkButton>Entrar</LinkButton>
                </Form>
@@ -115,3 +93,91 @@ export function SignIn() {
       </ContainerScrollbar>
    );
 }
+
+export async function SubmitFormSignIn({ request }: ActionFunctionArgs) {
+   const data = await request.formData();
+
+   const email = data.get('email');
+
+   const password = data.get('password');
+
+   try {
+      const Response = await fetch(
+         `${baseURL}/`,
+         configFetch({
+            method: request.method,
+            body: JSON.stringify({ password, email }),
+         }),
+      );
+
+      const Result = await Response.json();
+
+
+      if (Result?.isAuthenticated) {
+         const token = Result?.token;
+
+         token && localStorage.setItem('token', token);
+
+         return { isAuthenticated: true };
+      } else {
+         console.log('erro');
+         const error: ErrorProps[] = JSON.parse(Result?.message);
+
+         const er = error.reduce((acc, e) => {
+            if (e.path[0] === 'email') {
+               return (acc = { ...acc, email: e.message });
+            } else if (e.path[0] === 'password') {
+               return (acc = { ...acc, password: e.message });
+            }
+            return acc;
+         }, {});
+
+         return { ...er, isAuthenticated: false };
+      }
+   } catch (err) {
+      console.error('err');
+      return { isAuthenticated: false };
+   }
+}
+
+// async function SubmitForm(event: FormEvent<HTMLFormElement>) {
+//    event.preventDefault();
+
+//    try {
+//       const Response = await fetch(
+//          `${baseURL}/`,
+//          configFetch({ method: 'POST', body: JSON.stringify(Obj) }),
+//       );
+
+//       const Result = await Response.json();
+
+//       console.log({ Response, Result });
+
+//       setIsAuthenticated?.(
+//          Result?.isAuthenticated ? Result?.isAuthenticated : false,
+//       );
+
+//       setEmailError(undefined);
+//       setPasswordError(undefined);
+
+//       if (Result?.isAuthenticated) {
+//          const token = Result?.token;
+
+//          token && localStorage.setItem('token', token);
+
+//          //
+//       } else {
+//          const error: ErrorProps[] = Result?.message;
+
+//          error.map((e) => {
+//             if (e.path[0] === 'email') setEmailError(e.message);
+
+//             if (e.path[0] === 'password') setPasswordError(e.message);
+//          });
+
+//          return;
+//       }
+//    } catch (err) {
+//       console.error(err);
+//    }
+// }

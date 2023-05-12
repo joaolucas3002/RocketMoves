@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { TbArrowLeft } from 'react-icons/tb';
 import styled from 'styled-components';
 
@@ -18,7 +18,9 @@ import {
 } from '../../styles/styledGlobal';
 import { ButtonProportions } from '../../styles/styledGlobal';
 import { theme } from '../../theme';
-import { fetchPost } from '../../utils/fetchPost';
+import { configFetch } from '../../utils/configFetch';
+import { baseURL } from '../../lib/fetch';
+import { AuthContext } from '../../context/RootRouter';
 
 const { color, font, border } = theme;
 
@@ -76,6 +78,7 @@ const Input = styled.input`
 const Textarea = styled.textarea`
    width: 100%;
    height: 30rem;
+   word-break: break-all;
    padding: 1.8rem 1.6rem;
    color: ${color.third};
    border-radius: ${border.radius};
@@ -118,12 +121,19 @@ const ButtonClose = styled(ButtonProportions)`
 const ConstinerTags = styled.div`
    padding: 1.6rem;
    background-color: ${color.thirdBg};
+   width: fit-content;
+   min-width: 100%;
 
    border-radius: ${border.radius};
    display: flex;
    flex-direction: row;
    gap: 2.4rem;
    flex-wrap: wrap;
+`;
+
+const BorderRadius = styled.div`
+   border-radius: ${border.radius};
+   overflow: hidden;
 `;
 
 const TitleH2 = styled.h2`
@@ -153,96 +163,103 @@ export function CreatePost() {
    const [inputValue, setInputValue] = useState<string>('');
    const [textarea, setTextarea] = useState<string>('');
 
-   const name = 'Rodrigo Gonçalves silva';
+   const token = localStorage.getItem('token');
 
    async function AddPost() {
-      const token = localStorage.getItem('token');
-
       const props = {
-         body: {
-            title: inputValue,
-            stars: stars,
-            tags: arrayTags,
-            post: textarea,
-            token,
-         },
-         parens: '/post/new',
+         title: inputValue,
+         stars: stars,
+         tags: arrayTags,
+         body: textarea,
+         token,
       };
 
-      console.log(props);
-
       try {
-         const rest = await fetchPost(props);
+         const response = await fetch(
+            `${baseURL}/post/new`,
+            configFetch({
+               body: JSON.stringify(props),
+               method: 'POST',
+            }),
+         );
 
+         const Result = await response.json();
 
          setArrayTags([]);
          setStars(0);
          setInputValue('');
          setTextarea('');
-      } catch (error) {
-         console.error(error);
+         if (true) {
+         } else {
+            // const ttt = await rest.json();
+            // ttt?.isAuthenticated;
+         }
+      } catch (err) {
+         console.error(err);
       }
    }
 
    return (
-      <ContainerHidden>
-         <Header name={name} url="/profile" />
+      <MaxWidthScrollbar>
+         <MaxWidth>
+            <ContainerMain>
+               <ContainerColumn>
+                  <ButtonHistory>
+                     <TbArrowLeft /> Voltar
+                  </ButtonHistory>
+                  <Title>Comentario</Title>
+               </ContainerColumn>
+               <ContainerRow>
+                  <Input
+                     value={inputValue}
+                     onChange={(e) => {
+                        setInputValue(e.target.value);
+                     }}
+                     name='title'
+                     type="text"
+                     placeholder="Título"
+                  />
 
-         <MaxWidthScrollbar>
-            <MaxWidth>
-               <ContainerMain>
-                  <ContainerColumn>
-                     <ButtonHistory>
-                        <TbArrowLeft /> Voltar
-                     </ButtonHistory>
-                     <Title>Comentario</Title>
-                  </ContainerColumn>
-                  <ContainerRow>
-                     <Input
-                        value={inputValue}
-                        onChange={(e) => {
-                           setInputValue(e.target.value);
-                        }}
-                        type="text"
-                        placeholder="Título"
-                     />
-
-                     <ContainerStars>
-                        <CreateStar indexStar={stars} setStars={setStars} />
-                     </ContainerStars>
-                  </ContainerRow>
-                  <div>
-                     <Textarea
-                        value={textarea}
-                        onChange={(e) => setTextarea(e.target.value)}
-                        name=""
-                        id=""
-                     />
-                  </div>
-                  <ContainerColumn>
-                     <TitleH2>Marcadores</TitleH2>
-                     <ConstinerTags>
-                        {arrayTags.map((title, index, array) => (
-                           <CreateTag
-                              key={`${title}-${index}`}
-                              title={title}
-                              array={array}
-                              setArray={setArrayTags}
+                  <ContainerStars>
+                     <CreateStar indexStar={stars} setStars={setStars} />
+                  </ContainerStars>
+               </ContainerRow>
+               <div>
+                  <Textarea
+                     value={textarea}
+                     onChange={(e) => setTextarea(e.target.value)}
+                     name="body"
+                     id=""
+                  />
+               </div>
+               <ContainerColumn>
+                  <TitleH2>Marcadores</TitleH2>
+                  <BorderRadius>
+                     <MaxWidthScrollbar>
+                        <ConstinerTags>
+                           {arrayTags.map((title, index, array) => (
+                              <CreateTag
+                                 key={`${title}-${index}`}
+                                 title={title}
+                                 array={array}
+                                 setArray={setArrayTags}
+                              />
+                           ))}
+                           <AddTag
+                              arrayTags={arrayTags}
+                              setArrayTags={setArrayTags}
+                              
                            />
-                        ))}
-                        <AddTag
-                           arrayTags={arrayTags}
-                           setArrayTags={setArrayTags}
-                        />
-                     </ConstinerTags>
-                  </ContainerColumn>
-                  <ContainerRow>
-                     <ButtonClose>Excluir</ButtonClose>
-                     <Button onClick={AddPost}>Salvar</Button>
-                  </ContainerRow>
-               </ContainerMain>
-            </MaxWidth>
-         </MaxWidthScrollbar>
-      </ContainerHidden>
+                        </ConstinerTags>
+                     </MaxWidthScrollbar>
+                  </BorderRadius>
+               </ContainerColumn>
+               <ContainerRow>
+                  <ButtonClose>Excluir</ButtonClose>
+                  <Button onClick={AddPost}>Salvar</Button>
+               </ContainerRow>
+            </ContainerMain>
+         </MaxWidth>
+      </MaxWidthScrollbar>
    );
 }

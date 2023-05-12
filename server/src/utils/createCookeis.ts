@@ -6,10 +6,12 @@ export async function createCookeis(
 ): Promise<FastifyReply> {
    const token = await res.jwtSign({ userId: id });
 
-   return res.setCookie('token', token, {
+   const yy = res.setCookie('token', token, {
       httpOnly: true,
       secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 30,
       sameSite: 'lax',
    });
+
+   return yy;
 }

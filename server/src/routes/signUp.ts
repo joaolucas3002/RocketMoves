@@ -1,34 +1,44 @@
-import { sign } from '@fastify/cookie';
+import jwt from 'jsonwebtoken';
 import { User } from '@prisma/client';
 import { fastify, FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { prismaQuery } from '../lib/prisma';
 import { createCookeis } from '../utils/createCookeis';
-// import { secret } from '../lib/secret';
-
-interface ErrorProps {
-   userName?: string;
-   email?: string;
-   password?: string;
-}
+import { cookiesOptions } from '../lib/cookiesOptions';
+import { validate } from './validate';
+import ms from 'ms';
 
 interface validateErrorPorps {
    email: User | null;
    userName: User | null;
 }
 
+interface ErrorProps {
+   message: string;
+   path: string[];
+}
+
 function validateError({ email, userName }: validateErrorPorps) {
-   let objError = {};
+   let Error: ErrorProps[] = [];
 
-   if (email) {
-      objError = { email: 'email is already registered', ...objError };
-   }
+   if (email)
+      Error = [
+         { message: 'Este e-mail já está registado', path: ['email'] },
+         ...Error,
+      ];
 
-   if (userName) {
-      objError = { userName: 'UserName is already registered', ...objError };
-   }
+   if (userName)
+      Error = [
+         {
+            message: 'Este UserName já está registado',
+            path: ['userName'],
+         },
+         ...Error,
+      ];
 
-   return objError;
+   console.log(Error);
+
+   return Error;
 }
 
 export async function signUp(app: FastifyInstance) {
@@ -36,36 +46,56 @@ export async function signUp(app: FastifyInstance) {
       userName: z
          .string()
          .trim()
-         .min(4, 'UserName must be at least 4 characters')
-         .max(25, 'The userName must have a maximum of 25 characters'),
-      email: z.string().trim().email('Please inform a valid email address'),
+         .min(4, 'userName deve ter pelo menos 4 caracteres')
+         .max(25, 'O userName deve ter no máximo 25 caracteres'),
+      email: z
+         .string()
+         .trim()
+         .email('Por favor, informe um endereço de e-mail válido'),
       password: z
          .string()
          .trim()
-         .min(8, 'Password must be at least 8 characters')
-         .max(50, 'The password must have a maximum of 50 characters'),
+         .min(8, 'A senha deve conter pelo menos 8 caracteres')
+         .max(50, 'A senha deve ter no máximo 50 caracteres'),
    });
 
-   app.post('/signup', async (req, res) => {
+   app.post('/signup', async (req, reply) => {
+      const nameToken = 'token';
+
+      reply.unsignCookie(nameToken);
+
       const { email, password, userName } = CreateUserSchema.parse(req.body);
 
-      const isName = await prismaQuery.user.findUnique({ where: { userName } }).catch()
+      const isName = await prismaQuery.user.findUnique({ where: { userName } });
 
-      const isEmail = await prismaQuery.user.findUnique({ where: { email } }).catch()
+      const isEmail = await prismaQuery.user.findUnique({ where: { email } });
 
       const error = validateError({ email: isEmail, userName: isName });
 
-      if (Object.keys(error).length > 0) {
-         res.status(400).send(JSON.stringify(error));
-         return;
+      if (error.length > 0) {
+         return reply.status(300).send({
+            error: 'Internal Server Error',
+            statusCode: 500,
+            message: JSON.stringify(error),
+         });
       }
 
-      const user = await prismaQuery.user.create({
+      const random = (Math.random() * 10 ** 32).toString();
+
+      const { id } = await prismaQuery.user.create({
          data: { email, password, userName },
       });
 
-      await createCookeis(res, user.id);
+      const token = jwt.sign({ id }, process.env.JWT_SECRET!, {
+         expiresIn: ms(6 * 60 * 1000),
+      });
 
-      res.status(200).send({ message: 'Login successful' });
+      reply.setCookie(nameToken, token, cookiesOptions);
+
+      reply.status(202).send({
+         menssage: 'Success',
+         isAuthenticated: true,
+         [nameToken]: token,
+      });
    });
 }

@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { RxLockClosed, RxPerson, RxEnvelopeClosed } from 'react-icons/rx';
 import { TbArrowLeft } from 'react-icons/tb';
 
@@ -23,43 +22,27 @@ import {
    InputError,
 } from '../styles/styledsLoaginAndRecord';
 import { TextLink, Button } from '../styles/styledGlobal';
-import { theme } from '../theme';
-import { FormEvent, useState } from 'react';
-import axios from 'axios';
-import { ResponseWithToken } from '../interfaces/ResponseWithToken';
-import ifTokenValidCookie from '../utils/ifTokenValidAddLocalStorage';
+import { configFetch } from '../utils/configFetch';
+import {
+   ActionFunctionArgs,
+   useActionData,
+} from 'react-router-dom'; // import do hook
 import { baseURL } from '../lib/fetch';
-import { fetchPost } from '../utils/fetchPost';
-import { useNavigate } from 'react-router-dom'; // import do hook
-import { ZodError } from 'zod';
-
-const { color, font, border } = theme;
 
 interface ObjProps {
-   userName: string;
-   email: string;
-   password: string;
+   userName?: string;
+   email?: string;
+   password?: string;
+   isAuthenticated: boolean;
+}
+
+interface ErrorProps {
+   message: string;
+   path: string[];
 }
 
 export function SignUp() {
-   const [Obj, setObj] = useState<ObjProps>({
-      userName: '',
-      email: '',
-      password: '',
-   });
-   const [Error, setError] = useState<string>('');
-
-   async function SubmitForm(event: FormEvent<HTMLFormElement>) {
-      event.preventDefault();
-
-      // const history = useNavigate()
-
-      const props = { body: Obj, parens: '/signup' };
-
-      const rest = await fetchPost(props);
-
-      // rest && (await ifTokenValidCookie(rest));
-   }
+   const errors = useActionData() as ObjProps;
 
    return (
       <ContainerScrollbar>
@@ -72,13 +55,7 @@ export function SignUp() {
                   </Description>
                </div>
                <Subtitle>Crie sua conta</Subtitle>
-               <Form
-                  name="SignUpForm"
-                  onSubmit={(e) => SubmitForm(e)}
-                  action=""
-                  method="POST"
-                  target="_blank"
-               >
+               <Form action="/signup" method="POST">
                   <ContainerInput>
                      <ContainerError>
                         <CreateInput
@@ -86,12 +63,11 @@ export function SignUp() {
                            type="text"
                            placeholder="Usuário"
                            name="userName"
-                           id="userName"
-                           onChange={(e) =>
-                              setObj({ ...Obj, userName: e.target.value })
-                           }
-                           value={Obj.userName}
                         />
+
+                        {errors?.userName && (
+                           <InputError>{errors?.userName}</InputError>
+                        )}
                      </ContainerError>
                      <ContainerError>
                         <CreateInput
@@ -99,12 +75,10 @@ export function SignUp() {
                            type="email"
                            placeholder="E-mail"
                            name="email"
-                           id="email"
-                           onChange={(e) =>
-                              setObj({ ...Obj, email: e.target.value })
-                           }
-                           value={Obj.email}
                         />
+                        {errors?.email && (
+                           <InputError>{errors?.email}</InputError>
+                        )}
                      </ContainerError>
                      <ContainerError>
                         <CreateInput
@@ -112,18 +86,16 @@ export function SignUp() {
                            type="password"
                            placeholder="Senha"
                            name="password"
-                           id="password"
-                           onChange={(e) =>
-                              setObj({ ...Obj, password: e.target.value })
-                           }
-                           value={Obj.password}
                         />
+                        {errors?.password && (
+                           <InputError>{errors?.password}</InputError>
+                        )}
                      </ContainerError>
                   </ContainerInput>
                   <LinkButton>Cadastrar</LinkButton>
                </Form>
                <ContainerLink>
-                  <TextLink to="/">
+                  <TextLink to="/login">
                      <TbArrowLeft /> Voltar para o login
                   </TextLink>
                </ContainerLink>
@@ -138,3 +110,53 @@ export function SignUp() {
       </ContainerScrollbar>
    );
 }
+
+export async function SubmitFormSignUp({ request }: ActionFunctionArgs) {
+   const data = await request.formData();
+
+   const userName = data.get('userName');
+
+   const email = data.get('email');
+
+   const password = data.get('password');
+
+   try {
+      const Response = await fetch(
+         `${baseURL}/signup`,
+         configFetch({
+            method: 'POST',
+            body: JSON.stringify({ userName, email, password }),
+         }),
+      );
+      const Result = await Response.json();
+
+      if (Result?.isAuthenticated) {
+         const token = Result?.token;
+
+         localStorage.setItem('token', token);
+
+         return { isAuthenticated: true };
+      } else {
+         const error: ErrorProps[] = await JSON.parse(Result?.message);
+
+         const red = error.reduce((acc, e) => {
+            if (e.path[0] === 'userName') {
+               return (acc = { ...acc, userName: e.message });
+            }
+            if (e.path[0] === 'email') {
+               return (acc = { ...acc, email: e.message });
+            }
+            if (e.path[0] === 'password') {
+               return (acc = { ...acc, password: e.message });
+            }
+            return acc;
+         }, {});
+
+         return { ...red, isAuthenticated: false };
+      }
+   } catch (err) {
+      console.log(err);
+      return { isAuthenticated: false };
+   }
+}
+

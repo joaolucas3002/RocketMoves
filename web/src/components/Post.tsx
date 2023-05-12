@@ -5,7 +5,6 @@ import { Subtitle } from '../styles/styledGlobal';
 import { Stars } from './Stars';
 
 import { theme } from '../theme';
-import { validateLinghtString } from '../utils/validateLinghtString';
 
 const { font, color, border } = theme;
 
@@ -26,8 +25,10 @@ const ContainerArticle = styled.article`
 `;
 
 const ContainerPost = styled.p`
-
    color: ${color.fifth};
+   text-overflow: ellipsis;
+   overflow: hidden;
+   word-break: break-all;
    font-weight: 500;
    overflow-wrap: break-word;
    font-family: ${font.family.roboto};
@@ -86,8 +87,6 @@ interface PostProps {
 }
 
 export function Post({ title, post, stars, id, tags }: PostProps) {
-   let ValuePost = validateLinghtString(post, 288);
-
    return (
       <ContainerArticle>
          <LinkPost to={`/post/${id}`}>
@@ -95,7 +94,7 @@ export function Post({ title, post, stars, id, tags }: PostProps) {
                <Subtitle>{title}</Subtitle>
                <Stars amountOfStar={stars} />
             </ContainerInfo>
-            <ContainerPost>{ValuePost}</ContainerPost>
+            <ContainerPost>{post}</ContainerPost>
          </LinkPost>
          {tags.length > 0 && (
             <ContainerTags>

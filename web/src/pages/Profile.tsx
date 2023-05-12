@@ -13,6 +13,7 @@ import {
    ImgCover,
 } from '../styles/styledGlobal';
 import { theme } from '../theme';
+import { useEffect } from 'react';
 
 const { font, color } = theme;
 
@@ -65,6 +66,10 @@ const Section = styled.section`
 `;
 
 export function Profile() {
+   useEffect(() => {
+      
+   }, []);
+
    return (
       <ContainerHidden>
          <ContainerHeader>

@@ -1,38 +1,61 @@
 import {
    Route,
-   Routes as RoutesDom,
-   useParams,
+   createBrowserRouter,
+   createRoutesFromElements,
 } from 'react-router-dom';
-import { SignUp } from './pages/SignUp';
-import { SignIn } from './pages/SignIn';
-import { Home } from './pages/Home';
+
+// page
+import { Home, loaderHome } from './pages/Home';
 import { CreatePost } from './pages/CreatePost';
-import { Post } from './pages/Post';
+import { Post, getPost } from './pages/Post';
 import { Profile } from './pages/Profile';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import Cookies from 'js-cookie';
 
-export function Routes() {
-   const navigate = useNavigate();
-   const token = Cookies;
+// layout
+import { Layout } from './components/Layout';
+import { Loading } from './components/Loading';
 
-   const params = useParams();
+// router
 
-   useEffect(() => {
-      console.log(token);
-   }, [token]);
+import { SignInRoute } from './components/router/SignInRoute';
+import { SignUpRoute } from './components/router/SignUpRoute';
 
-   function name() {}
+import { PrivateRoute } from './components/router/PrivateRoute';
+import { RootRouter, rootRouter } from './context/RootRouter';
 
-   return (
-      <RoutesDom>
-         <Route path="/" element={<SignIn />} />
-         <Route path="/signup" element={<SignUp />} />
-         <Route path="/home" element={<Home />} />
-         <Route path="/createPost" element={<CreatePost />} />
-         <Route path="/post/:id" element={<Post />} />
-         <Route path="/profile" element={<Profile />} />
-      </RoutesDom>
-   );
-}
+import { SubmitFormSignIn } from './pages/SignIn';
+import { SubmitFormSignUp } from './pages/SignUp';
+
+export const route = createBrowserRouter(
+   createRoutesFromElements(
+      <Route loader={rootRouter} element={<RootRouter />}>
+         <Route
+            path="/login"
+            element={<SignInRoute />}
+            action={SubmitFormSignIn}
+         />
+         <Route
+            path="/signup"
+            element={<SignUpRoute />}
+            action={SubmitFormSignUp}
+         />
+         <Route path="/" element={<PrivateRoute />}>
+            <Route path="/" element={<Layout />} >
+               <Route
+                  index
+                  element={<Home />}
+                  loader={loaderHome}
+                  errorElement={<Loading />}
+               />
+               <Route path="post/new" element={<CreatePost />} />
+               <Route
+                  path="post/:id"
+                  element={<Post />}
+                  loader={getPost}
+                  errorElement={<Loading />}
+               />
+            </Route>
+            <Route path="profile" element={<Profile />} />
+         </Route>
+      </Route>,
+   ),
+);

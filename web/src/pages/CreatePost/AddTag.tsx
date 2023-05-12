@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineAdd } from 'react-icons/md';
 
 import { theme } from '../../theme';
-import { validateLinghtString } from '../../utils/validateLinghtString';
 
 const { color, font, border } = theme;
 
@@ -24,7 +23,7 @@ const NewTag = styled.div`
    background-color: transparent;
    width: fit-content;
 
-   gap: 1.6rem;
+   gap: 1.2rem;
    padding-inline: 1.6rem;
 
    :focus {
@@ -34,7 +33,7 @@ const NewTag = styled.div`
 
 const TagIonput = styled.input`
    background-color: transparent;
-   width: min(11.1rem);
+   width: min(11rem);
    font-size: ${font.size.base};
    font-family: ${font.family.roboto};
    font-weight: 400;
@@ -53,7 +52,8 @@ const NewTagButton = styled.button`
    background-color: transparent;
    color: ${color.first};
 
-   :hover , :focus{
+   :hover,
+   :focus {
       color: ${color.firstHover};
    }
 `;
@@ -73,11 +73,10 @@ function ValidationToAddNewTag({
 }: ValidationToAddNewTagProps) {
    const LowerInput = inputValue?.toLowerCase().trim();
 
-   // LowerInput?.length
-
    LowerInput &&
       !arrayTags.includes(LowerInput) &&
       setArrayTags([...arrayTags, LowerInput]);
+
    setInputValue('');
 }
 
@@ -89,30 +88,44 @@ interface AddTagProps {
 export function AddTag({ arrayTags, setArrayTags }: AddTagProps) {
    const [inputValue, setInputValue] = useState<string>('');
    const [styleFocos, setStyleFocos] = useState(`${color.second}`);
+   const textInput = useRef<HTMLInputElement>(null);
+
+   if (textInput?.current) {
+      KeyboardEvent.prototype;
+   }
 
    return (
-      <NewTag style={{ borderColor: styleFocos }}>
+      <NewTag
+         onClick={() => console.log(textInput.current?.focus())}
+         style={{ borderColor: styleFocos }}
+      >
          <TagIonput
+            ref={textInput}
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder={'Novo marcador'}
-            onFocus={() => {
-               setStyleFocos(`${color.firstHover}`);
-            }}
-            onBlur={() => {
-               setStyleFocos(`${color.second}`);
+            onFocus={() => setStyleFocos(`${color.firstHover}`)}
+            onBlur={() => setStyleFocos(`${color.second}`)}
+            onKeyDown={(e) => {
+               if (e?.key === 'Enter')
+                  ValidationToAddNewTag({
+                     inputValue,
+                     setInputValue,
+                     arrayTags,
+                     setArrayTags,
+                  });
             }}
          />
          <NewTagButton
-            onClick={() =>
+            onClick={() => {
                ValidationToAddNewTag({
                   inputValue,
                   setInputValue,
                   arrayTags,
                   setArrayTags,
-               })
-            }
+               });
+            }}
          >
             <MdOutlineAdd style={{ cursor: 'pointer' }} />
          </NewTagButton>

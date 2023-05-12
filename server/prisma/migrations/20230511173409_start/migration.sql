@@ -1,20 +1,25 @@
 -- CreateTable
 CREATE TABLE "user" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "name" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "userName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL
+    "name" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "loginToken" TEXT NOT NULL DEFAULT ''
 );
 
 -- CreateTable
 CREATE TABLE "posts" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    "published" BOOLEAN NOT NULL DEFAULT false,
     "title" TEXT NOT NULL,
-    "post" TEXT NOT NULL,
-    "userName" TEXT NOT NULL,
-    "star" INTEGER NOT NULL DEFAULT 0,
-    CONSTRAINT "posts_userName_fkey" FOREIGN KEY ("userName") REFERENCES "user" ("name") ON DELETE RESTRICT ON UPDATE CASCADE
+    "body" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "stars" INTEGER NOT NULL DEFAULT 0,
+    CONSTRAINT "posts_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "user" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -32,16 +37,10 @@ CREATE TABLE "_PostToTag" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "user_name_key" ON "user"("name");
+CREATE UNIQUE INDEX "user_userName_key" ON "user"("userName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "user_password_key" ON "user"("password");
-
--- CreateIndex
-CREATE UNIQUE INDEX "posts_userName_key" ON "posts"("userName");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "_PostToTag_AB_unique" ON "_PostToTag"("A", "B");
