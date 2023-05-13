@@ -59,3 +59,4 @@ export const route = createBrowserRouter(
       </Route>,
    ),
 );
+
