@@ -22,7 +22,7 @@ const app = fastify({
 app.register(cookie, { secret: process.env.JWT_SECRET });
 
 app.register(cors, {
-   origin: ['http://localhost:5000', 'http://localhost:3000'],
+   origin: process.env.ARRAY_CROSS_ORIGIN,
    allowedHeaders: ['Content-Type', 'Authorization'],
    credentials: true,
    preflightContinue: false,
@@ -49,6 +49,3 @@ app.listen({ port }, (err, address) => {
       console.log({ bhadfhsdbfsdgfsd: 3000 });
    }
 });
-
-
- 
