@@ -39,7 +39,7 @@ export const route = createBrowserRouter(
             action={SubmitFormSignUp}
          />
          <Route path="/" element={<PrivateRoute />}>
-            <Route path="/" element={<Layout />} >
+            <Route path="/" element={<Layout />}>
                <Route
                   index
                   element={<Home />}
