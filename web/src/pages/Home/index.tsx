@@ -8,7 +8,6 @@ import {
    ContainerHidden,
    MaxWidth,
 } from '../../styles/styledGlobal';
-import z from 'zod';
 
 import {
    ButtonSmall,
