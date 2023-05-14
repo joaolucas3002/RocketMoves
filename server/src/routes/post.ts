@@ -50,6 +50,48 @@ export async function post(app: FastifyInstance) {
       });
    }
 
+   app.get('/', async (req, resu) => {
+      const page = 1;
+      const take = 4;
+      const skip = 4;
+
+      try {
+         const tokenIsValid = { id: '8b88a5ec-b706-4a0c-93da-6c77263679bc' };
+
+         if (typeof tokenIsValid !== 'string' && tokenIsValid?.id) {
+            const postLength = await prismaQuery.post.findMany({
+               take: take + 1,
+               skip,
+               where: {
+                  authorId: tokenIsValid.id,
+                  title: {
+                     contains: '',
+                  },
+               },
+               select: { id: true },
+               orderBy: { createdAt: 'desc' },
+            });
+
+            const posts = await GetPosts(take, skip, tokenIsValid.id, '');
+
+            const response = {
+               posts,
+               isAuthenticated: true,
+               previous: page > 1 ? page - 1 : undefined,
+               next: postLength.length > take ? page + 1 : undefined,
+               page: page,
+               query: '',
+            };
+
+            console.log(response);
+
+            return resu.send(response);
+         }
+      } catch (error) {
+         resu.status(400).send({ error, isAuthenticated: false });
+      }
+   });
+
    app.post('/post', async (req, resu) => {
       const { token, page, query } = Schema.parse(req.body);
 
