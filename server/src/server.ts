@@ -23,9 +23,10 @@ app.register(cookie, { secret: process.env.JWT_SECRET });
 
 app.register(cors, {
    origin: '*',
+   methods: ["POST","GET"],
    allowedHeaders: ['Content-Type', 'Authorization'],
    credentials: true,
-   preflightContinue: false,
+   preflightContinue: true,
 });
 
 app.register(jwt, { secret: process.env.JWT_SECRET! });
