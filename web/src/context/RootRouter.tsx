@@ -56,6 +56,7 @@ export async function rootRouter() {
    const token = localStorage.getItem('token');
 
    try {
+      
       const resttt = await fetch(
          `${baseURL}/`,
          configFetch({ method: 'GET' }),
