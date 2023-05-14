@@ -56,6 +56,15 @@ export async function rootRouter() {
    const token = localStorage.getItem('token');
 
    try {
+      const resttt = await fetch(
+         `${baseURL}/`,
+         configFetch({ method: 'GET' }),
+      );
+      
+      const Results = await resttt.json();
+
+      console.log(Results);
+
       const Response = await fetch(
          `https://rocket-moves-server.vercel.app/validate`,
          configFetch({ method: 'POST', body: JSON.stringify({ token }) }),
