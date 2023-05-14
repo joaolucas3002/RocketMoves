@@ -57,7 +57,7 @@ export async function rootRouter() {
 
    try {
       const Response = await fetch(
-         `${baseURL}/validate`,
+         `https://rocket-moves-server.vercel.app/validate`,
          configFetch({ method: 'POST', body: JSON.stringify({ token }) }),
       );
       const Result = await Response.json();

@@ -22,7 +22,7 @@ const app = fastify({
 app.register(cookie, { secret: process.env.JWT_SECRET });
 
 app.register(cors, {
-   origin: true,
+   origin: '*',
    allowedHeaders: ['Content-Type', 'Authorization'],
    credentials: true,
    preflightContinue: false,
